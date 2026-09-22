@@ -58,6 +58,7 @@ shape = SubResource("BoxShape3D_interaction_test")
 position = Vector3(3, 1.6, 0)
 script = ExtResource("4_observation_test")
 observation_manager_path = NodePath("../ObservationManager")
+observation_anchor_path = NodePath("ObservationAnchor")
 
 [node name="ObservationAnchor" type="Node3D" parent="ObservationTestObject"]
 
