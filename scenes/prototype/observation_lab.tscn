@@ -241,8 +241,7 @@ position = Vector3(-4.1, 0.6, 3.6)
 
 [node name="DiscoveryCube" parent="DiscoveryChamber" instance=ExtResource("3_quantum_cube")]
 observation_manager_path = NodePath("../../ObservationManager")
-point_a_path = NodePath("../DiscoveryPointA")
-point_b_path = NodePath("../DiscoveryPointB")
+destination_paths = Array[NodePath]([NodePath("../DiscoveryPointA"), NodePath("../DiscoveryPointB")])
 
 [node name="Connector" type="Node3D" parent="."]
 
@@ -409,8 +408,7 @@ position = Vector3(3.6, 0.6, -11.5)
 
 [node name="ApplicationCube" parent="ApplicationChamber" instance=ExtResource("3_quantum_cube")]
 observation_manager_path = NodePath("../../ObservationManager")
-point_a_path = NodePath("../ApplicationPointA")
-point_b_path = NodePath("../ApplicationPointB")
+destination_paths = Array[NodePath]([NodePath("../ApplicationPointA"), NodePath("../ApplicationPointB")])
 
 [connection signal="activated" from="ApplicationChamber/PressurePlate" to="ApplicationChamber/ExitDoor" method="open"]
 [connection signal="deactivated" from="ApplicationChamber/PressurePlate" to="ApplicationChamber/ExitDoor" method="close"]
