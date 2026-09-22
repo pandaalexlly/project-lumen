@@ -22,8 +22,12 @@ func _physics_process(_delta: float) -> void:
 	if not is_instance_valid(_observation_manager) or not is_instance_valid(_observation_anchor):
 		return
 
-	var is_observed := _observation_manager.is_directly_observed(self, _observation_anchor)
+	var is_observed := _evaluate_current_observation()
 	_apply_observation_state(is_observed)
+
+
+func _evaluate_current_observation() -> bool:
+	return _observation_manager.is_directly_observed(self, _observation_anchor)
 
 
 func _apply_observation_state(is_observed: bool) -> void:

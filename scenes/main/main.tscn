@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://tests/manual/interaction_test_object.gd" id="2_interaction_test"]
 [ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="3_observation_manager"]
 [ext_resource type="Script" path="res://tests/manual/observation_test_object.gd" id="4_observation_test"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/quantum_cube.tscn" id="5_quantum_cube"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
 size = Vector3(20, 0.2, 20)
@@ -78,3 +79,14 @@ mesh = SubResource("BoxMesh_occluder")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ObservationOccluder"]
 shape = SubResource("BoxShape3D_occluder")
+
+[node name="QuantumCubePointA" type="Marker3D" parent="."]
+position = Vector3(-3, 0.7, -2)
+
+[node name="QuantumCubePointB" type="Marker3D" parent="."]
+position = Vector3(3, 0.7, -2)
+
+[node name="QuantumCube" parent="." instance=ExtResource("5_quantum_cube")]
+observation_manager_path = NodePath("../ObservationManager")
+point_a_path = NodePath("../QuantumCubePointA")
+point_b_path = NodePath("../QuantumCubePointB")
