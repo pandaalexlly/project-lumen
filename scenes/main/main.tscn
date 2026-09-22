@@ -1,12 +1,17 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://tests/manual/interaction_test_object.gd" id="2_interaction_test"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
 size = Vector3(20, 0.2, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(20, 0.2, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_interaction_test"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interaction_test"]
 
 [node name="Main" type="Node3D"]
 
@@ -24,3 +29,15 @@ shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector3(0, 1, 5)
+
+[node name="InteractionTestObject" type="Node3D" parent="."]
+position = Vector3(0, 1.6, 2)
+script = ExtResource("2_interaction_test")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InteractionTestObject"]
+mesh = SubResource("BoxMesh_interaction_test")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="InteractionTestObject"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionTestObject/StaticBody3D"]
+shape = SubResource("BoxShape3D_interaction_test")

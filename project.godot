@@ -32,3 +32,7 @@ move_right={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"physical_keycode":68,"unicode":100)]
 }
+interact={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":69,"unicode":101)]
+}
