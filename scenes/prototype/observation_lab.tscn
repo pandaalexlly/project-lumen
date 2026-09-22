@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3]
+[gd_scene load_steps=43 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="2_observation_manager"]
@@ -16,10 +16,6 @@ roughness = 0.85
 albedo_color = Color(0.12, 0.14, 0.16, 1)
 roughness = 0.8
 
-[sub_resource type="StandardMaterial3D" id="Material_console"]
-albedo_color = Color(0.08, 0.42, 0.5, 1)
-roughness = 0.65
-
 [sub_resource type="StandardMaterial3D" id="Material_plate"]
 albedo_color = Color(0.85, 0.52, 0.08, 1)
 roughness = 0.7
@@ -35,12 +31,19 @@ size = Vector3(12, 0.2, 10)
 [sub_resource type="BoxShape3D" id="Shape_discovery_floor"]
 size = Vector3(12, 0.2, 10)
 
-[sub_resource type="BoxMesh" id="Mesh_connector_floor"]
+[sub_resource type="BoxMesh" id="Mesh_connector_upper_floor"]
 material = SubResource("Material_floor")
-size = Vector3(12, 0.2, 4)
+size = Vector3(7, 0.2, 2)
 
-[sub_resource type="BoxShape3D" id="Shape_connector_floor"]
-size = Vector3(12, 0.2, 4)
+[sub_resource type="BoxShape3D" id="Shape_connector_upper_floor"]
+size = Vector3(7, 0.2, 2)
+
+[sub_resource type="BoxMesh" id="Mesh_connector_lower_floor"]
+material = SubResource("Material_floor")
+size = Vector3(2.5, 0.2, 2)
+
+[sub_resource type="BoxShape3D" id="Shape_connector_lower_floor"]
+size = Vector3(2.5, 0.2, 2)
 
 [sub_resource type="BoxMesh" id="Mesh_application_floor"]
 material = SubResource("Material_floor")
@@ -70,12 +73,12 @@ size = Vector3(0.3, 3.2, 12.3)
 [sub_resource type="BoxShape3D" id="Shape_application_side_wall"]
 size = Vector3(0.3, 3.2, 12.3)
 
-[sub_resource type="BoxMesh" id="Mesh_horizontal_wall_long"]
+[sub_resource type="BoxMesh" id="Mesh_discovery_south_left"]
 material = SubResource("Material_structure")
-size = Vector3(8, 3.2, 0.3)
+size = Vector3(9, 3.2, 0.3)
 
-[sub_resource type="BoxShape3D" id="Shape_horizontal_wall_long"]
-size = Vector3(8, 3.2, 0.3)
+[sub_resource type="BoxShape3D" id="Shape_discovery_south_left"]
+size = Vector3(9, 3.2, 0.3)
 
 [sub_resource type="BoxMesh" id="Mesh_horizontal_wall_stub"]
 material = SubResource("Material_structure")
@@ -84,12 +87,40 @@ size = Vector3(1, 3.2, 0.3)
 [sub_resource type="BoxShape3D" id="Shape_horizontal_wall_stub"]
 size = Vector3(1, 3.2, 0.3)
 
-[sub_resource type="BoxMesh" id="Mesh_connector_side_wall"]
+[sub_resource type="BoxMesh" id="Mesh_application_north_left"]
+material = SubResource("Material_structure")
+size = Vector3(4, 3.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_application_north_left"]
+size = Vector3(4, 3.2, 0.3)
+
+[sub_resource type="BoxMesh" id="Mesh_application_north_right"]
+material = SubResource("Material_structure")
+size = Vector3(5.5, 3.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_application_north_right"]
+size = Vector3(5.5, 3.2, 0.3)
+
+[sub_resource type="BoxMesh" id="Mesh_connector_full_wall"]
 material = SubResource("Material_structure")
 size = Vector3(0.3, 3.2, 4.3)
 
-[sub_resource type="BoxShape3D" id="Shape_connector_side_wall"]
+[sub_resource type="BoxShape3D" id="Shape_connector_full_wall"]
 size = Vector3(0.3, 3.2, 4.3)
+
+[sub_resource type="BoxMesh" id="Mesh_connector_side_wall"]
+material = SubResource("Material_structure")
+size = Vector3(0.3, 3.2, 2.3)
+
+[sub_resource type="BoxShape3D" id="Shape_connector_side_wall"]
+size = Vector3(0.3, 3.2, 2.3)
+
+[sub_resource type="BoxMesh" id="Mesh_connector_turn_wall"]
+material = SubResource("Material_structure")
+size = Vector3(4.5, 3.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_connector_turn_wall"]
+size = Vector3(4.5, 3.2, 0.3)
 
 [sub_resource type="BoxMesh" id="Mesh_equipment_block"]
 material = SubResource("Material_blocker")
@@ -104,10 +135,6 @@ size = Vector3(3.4, 3, 0.4)
 
 [sub_resource type="BoxShape3D" id="Shape_observation_blind"]
 size = Vector3(3.4, 3, 0.4)
-
-[sub_resource type="BoxMesh" id="Mesh_console"]
-material = SubResource("Material_console")
-size = Vector3(1.4, 1.2, 0.8)
 
 [sub_resource type="BoxMesh" id="Mesh_pressure_plate"]
 material = SubResource("Material_plate")
@@ -173,13 +200,13 @@ mesh = SubResource("Mesh_discovery_side_wall")
 shape = SubResource("Shape_discovery_side_wall")
 
 [node name="SouthWallLeft" type="StaticBody3D" parent="DiscoveryChamber/Walls"]
-position = Vector3(-2, 1.6, 2)
+position = Vector3(-1.5, 1.6, 2)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="DiscoveryChamber/Walls/SouthWallLeft"]
-mesh = SubResource("Mesh_horizontal_wall_long")
+mesh = SubResource("Mesh_discovery_south_left")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DiscoveryChamber/Walls/SouthWallLeft"]
-shape = SubResource("Shape_horizontal_wall_long")
+shape = SubResource("Shape_discovery_south_left")
 
 [node name="SouthWallRight" type="StaticBody3D" parent="DiscoveryChamber/Walls"]
 position = Vector3(5.5, 1.6, 2)
@@ -199,10 +226,6 @@ mesh = SubResource("Mesh_equipment_block")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DiscoveryChamber/CentralEquipmentBlock"]
 shape = SubResource("Shape_equipment_block")
 
-[node name="ConsolePlaceholder" type="MeshInstance3D" parent="DiscoveryChamber"]
-position = Vector3(4.7, 0.6, 7)
-mesh = SubResource("Mesh_console")
-
 [node name="DiscoveryPointA" type="Marker3D" parent="DiscoveryChamber"]
 position = Vector3(-4.1, 0.6, 7)
 
@@ -216,42 +239,59 @@ point_b_path = NodePath("../DiscoveryPointB")
 
 [node name="Connector" type="Node3D" parent="."]
 
-[node name="Floor" type="StaticBody3D" parent="Connector"]
-position = Vector3(0, -0.1, 0)
+[node name="UpperFloor" type="StaticBody3D" parent="Connector"]
+position = Vector3(1.5, -0.1, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/Floor"]
-mesh = SubResource("Mesh_connector_floor")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/UpperFloor"]
+mesh = SubResource("Mesh_connector_upper_floor")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/Floor"]
-shape = SubResource("Shape_connector_floor")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/UpperFloor"]
+shape = SubResource("Shape_connector_upper_floor")
+
+[node name="LowerFloor" type="StaticBody3D" parent="Connector"]
+position = Vector3(-0.75, -0.1, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/LowerFloor"]
+mesh = SubResource("Mesh_connector_lower_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/LowerFloor"]
+shape = SubResource("Shape_connector_lower_floor")
 
 [node name="WestWall" type="StaticBody3D" parent="Connector"]
-position = Vector3(-6, 1.6, 0)
+position = Vector3(-2, 1.6, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/WestWall"]
-mesh = SubResource("Mesh_connector_side_wall")
+mesh = SubResource("Mesh_connector_full_wall")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/WestWall"]
-shape = SubResource("Shape_connector_side_wall")
+shape = SubResource("Shape_connector_full_wall")
 
-[node name="EastWall" type="StaticBody3D" parent="Connector"]
-position = Vector3(6, 1.6, 0)
+[node name="UpperEastWall" type="StaticBody3D" parent="Connector"]
+position = Vector3(5, 1.6, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/EastWall"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/UpperEastWall"]
 mesh = SubResource("Mesh_connector_side_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/EastWall"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/UpperEastWall"]
 shape = SubResource("Shape_connector_side_wall")
 
-[node name="SightlineScreen" type="StaticBody3D" parent="Connector"]
-position = Vector3(2, 1.6, 0)
+[node name="TurnWall" type="StaticBody3D" parent="Connector"]
+position = Vector3(2.75, 1.6, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/SightlineScreen"]
-mesh = SubResource("Mesh_horizontal_wall_long")
-material_override = SubResource("Material_blocker")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/TurnWall"]
+mesh = SubResource("Mesh_connector_turn_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/SightlineScreen"]
-shape = SubResource("Shape_horizontal_wall_long")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/TurnWall"]
+shape = SubResource("Shape_connector_turn_wall")
+
+[node name="LowerEastWall" type="StaticBody3D" parent="Connector"]
+position = Vector3(0.5, 1.6, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/LowerEastWall"]
+mesh = SubResource("Mesh_connector_side_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Connector/LowerEastWall"]
+shape = SubResource("Shape_connector_side_wall")
 
 [node name="ApplicationChamber" type="Node3D" parent="."]
 
@@ -267,22 +307,22 @@ shape = SubResource("Shape_application_floor")
 [node name="Walls" type="Node3D" parent="ApplicationChamber"]
 
 [node name="NorthWallLeft" type="StaticBody3D" parent="ApplicationChamber/Walls"]
-position = Vector3(-5.5, 1.6, -2)
+position = Vector3(-4, 1.6, -2)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/Walls/NorthWallLeft"]
-mesh = SubResource("Mesh_horizontal_wall_stub")
+mesh = SubResource("Mesh_application_north_left")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/NorthWallLeft"]
-shape = SubResource("Shape_horizontal_wall_stub")
+shape = SubResource("Shape_application_north_left")
 
 [node name="NorthWallRight" type="StaticBody3D" parent="ApplicationChamber/Walls"]
-position = Vector3(2, 1.6, -2)
+position = Vector3(3.25, 1.6, -2)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/Walls/NorthWallRight"]
-mesh = SubResource("Mesh_horizontal_wall_long")
+mesh = SubResource("Mesh_application_north_right")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/NorthWallRight"]
-shape = SubResource("Shape_horizontal_wall_long")
+shape = SubResource("Shape_application_north_right")
 
 [node name="SouthWall" type="StaticBody3D" parent="ApplicationChamber/Walls"]
 position = Vector3(0, 1.6, -14)
