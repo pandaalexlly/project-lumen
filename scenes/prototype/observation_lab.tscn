@@ -1,8 +1,10 @@
-[gd_scene load_steps=43 format=3]
+[gd_scene load_steps=47 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="2_observation_manager"]
 [ext_resource type="PackedScene" path="res://scenes/prototype/quantum_cube.tscn" id="3_quantum_cube"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/pressure_plate.tscn" id="4_plate"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/simple_door.tscn" id="5_door"]
 
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.2, 0.22, 0.24, 1)
@@ -15,14 +17,6 @@ roughness = 0.85
 [sub_resource type="StandardMaterial3D" id="Material_blocker"]
 albedo_color = Color(0.12, 0.14, 0.16, 1)
 roughness = 0.8
-
-[sub_resource type="StandardMaterial3D" id="Material_plate"]
-albedo_color = Color(0.85, 0.52, 0.08, 1)
-roughness = 0.7
-
-[sub_resource type="StandardMaterial3D" id="Material_exit"]
-albedo_color = Color(0.55, 0.12, 0.1, 1)
-roughness = 0.75
 
 [sub_resource type="BoxMesh" id="Mesh_discovery_floor"]
 material = SubResource("Material_floor")
@@ -136,13 +130,26 @@ size = Vector3(3.4, 3, 0.4)
 [sub_resource type="BoxShape3D" id="Shape_observation_blind"]
 size = Vector3(3.4, 3, 0.4)
 
-[sub_resource type="BoxMesh" id="Mesh_pressure_plate"]
-material = SubResource("Material_plate")
-size = Vector3(1.8, 0.04, 1.8)
+[sub_resource type="BoxMesh" id="Mesh_exit_wall"]
+material = SubResource("Material_structure")
+size = Vector3(4.8, 3.2, 0.3)
 
-[sub_resource type="BoxMesh" id="Mesh_exit"]
-material = SubResource("Material_exit")
-size = Vector3(2.4, 2.4, 0.18)
+[sub_resource type="BoxShape3D" id="Shape_exit_wall"]
+size = Vector3(4.8, 3.2, 0.3)
+
+[sub_resource type="BoxMesh" id="Mesh_lintel"]
+material = SubResource("Material_structure")
+size = Vector3(2.4, 0.8, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_lintel"]
+size = Vector3(2.4, 0.8, 0.3)
+
+[sub_resource type="BoxMesh" id="Mesh_landing"]
+material = SubResource("Material_floor")
+size = Vector3(4, 0.2, 4)
+
+[sub_resource type="BoxShape3D" id="Shape_landing"]
+size = Vector3(4, 0.2, 4)
 
 [node name="ObservationLab" type="Node3D"]
 
@@ -324,14 +331,41 @@ mesh = SubResource("Mesh_application_north_right")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/NorthWallRight"]
 shape = SubResource("Shape_application_north_right")
 
-[node name="SouthWall" type="StaticBody3D" parent="ApplicationChamber/Walls"]
-position = Vector3(0, 1.6, -14)
+[node name="SouthWallLeft" type="StaticBody3D" parent="ApplicationChamber/Walls"]
+position = Vector3(-3.6, 1.6, -14)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/Walls/SouthWall"]
-mesh = SubResource("Mesh_chamber_end_wall")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/Walls/SouthWallLeft"]
+mesh = SubResource("Mesh_exit_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/SouthWall"]
-shape = SubResource("Shape_chamber_end_wall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/SouthWallLeft"]
+shape = SubResource("Shape_exit_wall")
+
+[node name="SouthWallRight" type="StaticBody3D" parent="ApplicationChamber/Walls"]
+position = Vector3(3.6, 1.6, -14)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/Walls/SouthWallRight"]
+mesh = SubResource("Mesh_exit_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/SouthWallRight"]
+shape = SubResource("Shape_exit_wall")
+
+[node name="ExitLintel" type="StaticBody3D" parent="ApplicationChamber/Walls"]
+position = Vector3(0, 2.8, -14)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/Walls/ExitLintel"]
+mesh = SubResource("Mesh_lintel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/ExitLintel"]
+shape = SubResource("Shape_lintel")
+
+[node name="ExitLanding" type="StaticBody3D" parent="ApplicationChamber"]
+position = Vector3(0, -0.1, -16)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/ExitLanding"]
+mesh = SubResource("Mesh_landing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/ExitLanding"]
+shape = SubResource("Shape_landing")
 
 [node name="WestWall" type="StaticBody3D" parent="ApplicationChamber/Walls"]
 position = Vector3(-6, 1.6, -8)
@@ -360,13 +394,12 @@ mesh = SubResource("Mesh_observation_blind")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/ObservationBlind"]
 shape = SubResource("Shape_observation_blind")
 
-[node name="PressurePlatePlaceholder" type="MeshInstance3D" parent="ApplicationChamber"]
+[node name="PressurePlate" parent="ApplicationChamber" instance=ExtResource("4_plate")]
 position = Vector3(3.6, 0.02, -11.5)
-mesh = SubResource("Mesh_pressure_plate")
+target_path = NodePath("../ApplicationCube")
 
-[node name="ExitPlaceholder" type="MeshInstance3D" parent="ApplicationChamber"]
-position = Vector3(0, 1.2, -13.82)
-mesh = SubResource("Mesh_exit")
+[node name="ExitDoor" parent="ApplicationChamber" instance=ExtResource("5_door")]
+position = Vector3(0, 1.2, -14)
 
 [node name="ApplicationPointA" type="Marker3D" parent="ApplicationChamber"]
 position = Vector3(-3.6, 0.6, -11.5)
@@ -378,3 +411,6 @@ position = Vector3(3.6, 0.6, -11.5)
 observation_manager_path = NodePath("../../ObservationManager")
 point_a_path = NodePath("../ApplicationPointA")
 point_b_path = NodePath("../ApplicationPointB")
+
+[connection signal="activated" from="ApplicationChamber/PressurePlate" to="ApplicationChamber/ExitDoor" method="open"]
+[connection signal="deactivated" from="ApplicationChamber/PressurePlate" to="ApplicationChamber/ExitDoor" method="close"]

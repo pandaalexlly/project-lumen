@@ -7,5 +7,7 @@ The player explores a small first-person environment, interacts with objects, an
 ## Observation Lab v0.1
 
 The Discovery Chamber introduces anomalous movement without requiring
-progress. The Application Chamber will later require deliberate application
-of the discovered observation rule.
+progress. The Application Chamber forms the first complete knowledge-driven
+puzzle: manipulate observation conditions so the QuantumCube reaches the
+pressure plate at PointB and opens the exit. Returning the cube to PointA
+releases the plate and closes the door.
