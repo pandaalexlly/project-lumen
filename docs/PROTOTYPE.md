@@ -32,6 +32,8 @@ directional Stabilization Beam can lock the current Quantum Cube while the
 player looks away, or make a covered candidate destination unavailable. Power
 and aim switches expose both cases without adding the Beam to Observation Lab
 or changing the shared 2.5-second release and 0.2-second destination grace.
+Player and Quantum bodies do not block Beam propagation; ordinary solid world
+geometry still blocks both its observation effect and visible path.
 
 ## Stabilization Lab Discovery
 
@@ -49,3 +51,10 @@ future candidates. Its Beam initially covers the empty goal state, forcing the
 Cube to move between the other available positions. Redirecting the Beam away
 from the desired goal lets the player deliberately constrain the remaining
 possibilities and move the Cube onto the exit Plate.
+
+## Stabilization Lab Combined Constraints
+
+The first combined-observation puzzle uses player direct visibility and
+artificial Beam observation together to constrain the Quantum Cube's possible
+future states. The player shapes the safe destination set by positioning their
+view and redirecting the Beam rather than by acquiring a new ability.

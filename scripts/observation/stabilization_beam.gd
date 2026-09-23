@@ -8,10 +8,14 @@ signal enabled_changed(is_enabled: bool)
 @export_range(0.1, 10.0, 0.01) var beam_width: float = 0.62
 @export_range(0.1, 10.0, 0.01) var beam_height: float = 0.62
 @export_flags_3d_physics var occlusion_collision_mask: int = 1
+@export_node_path("CollisionObject3D") var player_path: NodePath
 @export var debug_output: bool = true
 
 @onready var _emitter_origin: Marker3D = $EmitterOrigin
 @onready var _beam_volume: MeshInstance3D = $EmitterOrigin/BeamVolume
+@onready var _player_collision_root: CollisionObject3D = (
+	get_node_or_null(player_path) as CollisionObject3D
+)
 
 var enabled: bool:
 	get:
@@ -84,7 +88,7 @@ func observes_position(
 	)
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
-	query.exclude = _collect_collision_rids(ignored_root)
+	query.exclude = _collect_query_exclusion_rids(ignored_root)
 	var result := get_world_3d().direct_space_state.intersect_ray(query)
 	if result.is_empty():
 		return true
@@ -110,7 +114,7 @@ func _update_visual_length() -> void:
 
 	var ray_start := _emitter_origin.global_position
 	var ray_end := ray_start - _emitter_origin.global_basis.z.normalized() * beam_length
-	var exclusions: Array[RID] = []
+	var exclusions := _collect_query_exclusion_rids()
 	var visible_length := beam_length
 
 	while true:
@@ -153,9 +157,16 @@ func _collect_collision_rids(root_node: Node) -> Array[RID]:
 	return collision_rids
 
 
+func _collect_query_exclusion_rids(ignored_root: Node = null) -> Array[RID]:
+	var collision_rids := _collect_collision_rids(ignored_root)
+	if is_instance_valid(_player_collision_root):
+		_append_collision_rids(_player_collision_root, collision_rids)
+	return collision_rids
+
+
 func _append_collision_rids(node: Node, collision_rids: Array[RID]) -> void:
 	var collision_object := node as CollisionObject3D
-	if collision_object != null:
+	if collision_object != null and not collision_rids.has(collision_object.get_rid()):
 		collision_rids.append(collision_object.get_rid())
 	for child in node.get_children():
 		_append_collision_rids(child, collision_rids)

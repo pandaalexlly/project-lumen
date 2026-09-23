@@ -203,6 +203,7 @@ initially_enabled = true
 beam_length = 14.0
 beam_width = 0.62
 beam_height = 0.62
+player_path = NodePath("../Player")
 
 [node name="BeamAimSwitch" parent="." instance=ExtResource("5_switch")]
 position = Vector3(3.8, 1.2, 2.8)

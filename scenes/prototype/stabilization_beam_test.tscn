@@ -114,6 +114,7 @@ position = Vector3(-5.5, 1.1, 0)
 beam_length = 20.0
 beam_width = 0.62
 beam_height = 0.62
+player_path = NodePath("../Player")
 
 [node name="PowerSwitch" parent="." instance=ExtResource("5_switch")]
 position = Vector3(-0.8, 1.2, 3.5)
