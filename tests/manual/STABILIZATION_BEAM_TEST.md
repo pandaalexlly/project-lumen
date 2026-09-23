@@ -8,7 +8,9 @@ aimed at A.
 
 ## Test A: current-state stabilization
 
-1. Turn the left switch on and confirm the visible Beam covers the Cube at A.
+1. Turn the left switch on and confirm the narrow visible Beam matches the
+   emitter face, covers the Cube at A, continues through it, and ends on the
+   room wall.
 2. Look directly at the Cube, then turn fully away for about three seconds.
 3. Look back and confirm the Cube remains at A.
 4. While looking away, switch the Beam off and confirm the Cube can relocate

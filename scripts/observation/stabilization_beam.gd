@@ -4,9 +4,9 @@ extends ArtificialObservationSource
 signal enabled_changed(is_enabled: bool)
 
 @export var initially_enabled: bool = false
-@export_range(0.1, 50.0, 0.1) var beam_length: float = 8.0
-@export_range(0.1, 10.0, 0.1) var beam_width: float = 1.0
-@export_range(0.1, 10.0, 0.1) var beam_height: float = 1.6
+@export_range(0.1, 50.0, 0.1) var beam_length: float = 20.0
+@export_range(0.1, 10.0, 0.01) var beam_width: float = 0.62
+@export_range(0.1, 10.0, 0.01) var beam_height: float = 0.62
 @export_flags_3d_physics var occlusion_collision_mask: int = 1
 @export var debug_output: bool = true
 

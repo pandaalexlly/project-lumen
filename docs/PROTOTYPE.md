@@ -32,3 +32,20 @@ directional Stabilization Beam can lock the current Quantum Cube while the
 player looks away, or make a covered candidate destination unavailable. Power
 and aim switches expose both cases without adding the Beam to Observation Lab
 or changing the shared 2.5-second release and 0.2-second destination grace.
+
+## Stabilization Lab Discovery
+
+The first isolated gameplay room for the second knowledge layer places an
+enabled Stabilization Beam on a familiar Quantum Cube. The player's usual
+look-away experiment initially fails because effective observation can also
+come from the environment. Disabling the Beam removes that second observer;
+the unchanged player-observation rule can then move the Cube onto the exit
+Plate.
+
+## Stabilization Lab Destination Exclusion
+
+A second isolated room extends artificial observation from current states to
+future candidates. Its Beam initially covers the empty goal state, forcing the
+Cube to move between the other available positions. Redirecting the Beam away
+from the desired goal lets the player deliberately constrain the remaining
+possibilities and move the Cube onto the exit Plate.
