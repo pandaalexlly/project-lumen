@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/observation/stabilization_beam.gd" id="1_beam"]
+
+[sub_resource type="StandardMaterial3D" id="Material_housing"]
+albedo_color = Color(0.12, 0.16, 0.18, 1)
+metallic = 0.5
+roughness = 0.55
+
+[sub_resource type="StandardMaterial3D" id="Material_emitter"]
+albedo_color = Color(0.1, 0.85, 0.95, 1)
+emission_enabled = true
+emission = Color(0.05, 0.65, 0.8, 1)
+emission_energy_multiplier = 1.8
+
+[sub_resource type="StandardMaterial3D" id="Material_beam"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.08, 0.75, 0.95, 0.22)
+emission_enabled = true
+emission = Color(0.05, 0.55, 0.75, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="BoxMesh" id="Mesh_housing"]
+material = SubResource("Material_housing")
+size = Vector3(0.9, 0.9, 0.9)
+
+[sub_resource type="BoxMesh" id="Mesh_emitter"]
+material = SubResource("Material_emitter")
+size = Vector3(0.62, 0.62, 0.08)
+
+[sub_resource type="BoxShape3D" id="Shape_housing"]
+size = Vector3(0.9, 0.9, 0.9)
+
+[sub_resource type="BoxMesh" id="Mesh_beam"]
+material = SubResource("Material_beam")
+size = Vector3(1, 1, 1)
+
+[node name="StabilizationBeam" type="Node3D"]
+script = ExtResource("1_beam")
+
+[node name="Housing" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_housing")
+
+[node name="EmitterFace" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, -0.49)
+mesh = SubResource("Mesh_emitter")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("Shape_housing")
+
+[node name="EmitterOrigin" type="Marker3D" parent="."]
+position = Vector3(0, 0, -0.55)
+
+[node name="BeamVolume" type="MeshInstance3D" parent="EmitterOrigin"]
+cast_shadow = 0
+mesh = SubResource("Mesh_beam")

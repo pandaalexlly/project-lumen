@@ -62,6 +62,12 @@ func _evaluate_current_observation() -> bool:
 	)
 
 
+func _get_current_observation_probe_positions() -> PackedVector3Array:
+	var positions := _get_current_probe_group_positions(_body_visibility_probes)
+	positions.append_array(_get_current_probe_group_positions(_shadow_visibility_probes))
+	return positions
+
+
 func _on_observation_started() -> void:
 	if not _move_timer.is_stopped():
 		_move_timer.stop()
@@ -143,6 +149,7 @@ func _is_destination_envelope_unsafe(destination_point: Node3D) -> bool:
 	return (
 		_is_destination_probe_group_visible(_body_visibility_probes, destination_point)
 		or _is_destination_probe_group_visible(_shadow_visibility_probes, destination_point)
+		or _is_destination_artificially_observed(destination_point)
 	)
 
 
@@ -160,22 +167,58 @@ func _is_current_probe_group_visible(probe_group: Node3D) -> bool:
 	return false
 
 
+func _get_current_probe_group_positions(probe_group: Node3D) -> PackedVector3Array:
+	var positions := PackedVector3Array()
+	for child in probe_group.get_children():
+		var probe := child as Node3D
+		if probe != null:
+			positions.append(probe.global_position)
+	return positions
+
+
 func _is_destination_probe_group_visible(
 	probe_group: Node3D,
 	destination_point: Node3D
 ) -> bool:
-	for child in probe_group.get_children():
-		var probe := child as Node3D
-		if probe == null:
-			continue
-		var local_probe_position := to_local(probe.global_position)
-		var candidate_world_position := destination_point.global_transform * local_probe_position
+	for candidate_world_position in _get_destination_probe_group_positions(
+		probe_group,
+		destination_point
+	):
 		if _observation_manager.is_position_directly_visible_with_margin(
 			candidate_world_position,
 			destination_viewport_margin
 		):
 			return true
 	return false
+
+
+func _is_destination_artificially_observed(destination_point: Node3D) -> bool:
+	var positions := _get_destination_probe_group_positions(
+		_body_visibility_probes,
+		destination_point
+	)
+	positions.append_array(
+		_get_destination_probe_group_positions(
+			_shadow_visibility_probes,
+			destination_point
+		)
+	)
+	# Candidate queries model the object after it has left its current transform.
+	return _is_any_artificial_source_observing(positions, null, self)
+
+
+func _get_destination_probe_group_positions(
+	probe_group: Node3D,
+	destination_point: Node3D
+) -> PackedVector3Array:
+	var positions := PackedVector3Array()
+	for child in probe_group.get_children():
+		var probe := child as Node3D
+		if probe == null:
+			continue
+		var local_probe_position := to_local(probe.global_position)
+		positions.append(destination_point.global_transform * local_probe_position)
+	return positions
 
 
 func _reset_destination_hidden_grace() -> void:

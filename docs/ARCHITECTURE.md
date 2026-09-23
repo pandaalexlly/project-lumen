@@ -3,18 +3,24 @@
 - `PlayerController`: Handles first-person movement and view control.
 - `InteractionComponent`: Provides focused, reusable object interaction behavior.
 - `ObservationManager`: Performs stateless direct-observation queries.
-- `ObservableObject`: Owns per-object observation state and transitions.
+- `ArtificialObservationSource`: Registers a lightweight non-camera observation source.
+- `StabilizationBeam`: Implements a box-volume artificial source with world occlusion.
+- `ObservableObject`: Owns effective observation state and transitions.
 - `QuantumRelocator`: Owns shared observation-driven relocation behavior.
 - `QuantumCube` and `QuantumDoor`: Thin `QuantumRelocator` specializations.
 - `ApplicationQuantumCube`: Adds the Application room's bounded-random policy.
 - `PrototypeSessionController`: Owns restart, fall recovery, and completion state.
 
-The explicitly assigned primary `Camera3D` is the only authoritative camera.
-Direct observation currently requires both frustum visibility and unobstructed
-physics line of sight. Reflections and secondary cameras are intentionally not
-supported yet. In prototype v0.1, each `ObservableObject` uses one
-`ObservationAnchor`; `observation_started` and `observation_ended` represent
-changes in its direct-observation state.
+The explicitly assigned primary `Camera3D` is the only authority for direct
+player observation. Direct observation requires both frustum visibility and
+unobstructed physics line of sight; artificial sources do not impersonate that
+camera. Artificial sources register through a scene-tree group and answer
+geometric probe queries. Each query distinguishes a current target whose own
+collider may confirm observation from an ignored current-world root that is
+absent from a hypothetical state. `ObservableObject` combines direct player
+and artificial observation with OR semantics, then emits `observation_started`
+and `observation_ended` only when that single effective state changes. With no
+artificial source in a scene, existing behavior is unchanged.
 
 `QuantumRelocator` uses `ObservableObject` transitions to schedule movement.
 An observed-to-unobserved transition starts a cancellable
@@ -23,8 +29,26 @@ from currently safe, eligible fixed external destination markers.
 Its prototype Observation Envelope samples both the object body and its
 approximate shadow footprint, includes a camera-edge guard
 band, and defines observation for both its current state and candidate
-destination state. A destination must remain safely hidden for a short grace
-period. The object moves at most once during each uninterrupted unobserved period.
+destination state. The same body and shadow probes are offered to registered
+artificial sources. A destination is unsafe if either the player camera can see
+it or any enabled artificial source covers it, and it must remain safely hidden
+for a short grace period. The object moves at most once during each uninterrupted
+unobserved period.
+
+The provisional `StabilizationBeam` checks probes against a directional
+rectangular volume and raycasts from its emitter to each covered probe. Solid
+physics bodies block the path; a hit on the current target's own collider still
+counts as observation. Candidate queries model the relocator after it has left
+its current position by excluding every `CollisionObject3D` RID under that
+relocator, while unrelated walls remain occluders. Beam power changes feed the
+ordinary effective-state transition, so they use the shared release and
+cancellation behavior without a beam-specific timer.
+
+The Beam's graybox volume uses its configured range as a maximum and shortens
+to the first ordinary collider on its central ray. Quantum relocators are
+skipped by this visual-only query so receiving the field does not make its
+projection flicker or appear blocked; ordinary world geometry still truncates
+the visible field.
 
 `destination_paths` caches an arbitrary list of external `Node3D` markers;
 indices retain their configured order. Invalid, internal, and duplicate paths

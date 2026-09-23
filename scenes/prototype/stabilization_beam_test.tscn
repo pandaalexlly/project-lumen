@@ -1,0 +1,138 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="2_manager"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/quantum_cube.tscn" id="3_cube"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/stabilization_beam.tscn" id="4_beam"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/stabilization_beam_switch.tscn" id="5_switch"]
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.21, 0.23, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Material_wall"]
+albedo_color = Color(0.4, 0.43, 0.46, 1)
+roughness = 0.82
+
+[sub_resource type="BoxMesh" id="Mesh_unit"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_unit"]
+size = Vector3(1, 1, 1)
+
+[node name="StabilizationBeamTest" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector3(0, 1, 5)
+
+[node name="ObservationManager" type="Node" parent="."]
+script = ExtResource("2_manager")
+primary_camera_path = NodePath("../Player/Head/Camera3D")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-58, -28, 0)
+light_energy = 1.1
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.1, 0)
+scale = Vector3(16, 0.2, 12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+material_override = SubResource("Material_floor")
+mesh = SubResource("Mesh_unit")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("Shape_unit")
+
+[node name="Walls" type="Node3D" parent="."]
+
+[node name="NorthWall" type="StaticBody3D" parent="Walls"]
+position = Vector3(0, 1.5, -6)
+scale = Vector3(16, 3, 0.3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/NorthWall"]
+material_override = SubResource("Material_wall")
+mesh = SubResource("Mesh_unit")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/NorthWall"]
+shape = SubResource("Shape_unit")
+
+[node name="SouthWall" type="StaticBody3D" parent="Walls"]
+position = Vector3(0, 1.5, 6)
+scale = Vector3(16, 3, 0.3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/SouthWall"]
+material_override = SubResource("Material_wall")
+mesh = SubResource("Mesh_unit")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/SouthWall"]
+shape = SubResource("Shape_unit")
+
+[node name="WestWall" type="StaticBody3D" parent="Walls"]
+position = Vector3(-8, 1.5, 0)
+scale = Vector3(0.3, 3, 12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WestWall"]
+material_override = SubResource("Material_wall")
+mesh = SubResource("Mesh_unit")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WestWall"]
+shape = SubResource("Shape_unit")
+
+[node name="EastWall" type="StaticBody3D" parent="Walls"]
+position = Vector3(8, 1.5, 0)
+scale = Vector3(0.3, 3, 12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/EastWall"]
+material_override = SubResource("Material_wall")
+mesh = SubResource("Mesh_unit")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/EastWall"]
+shape = SubResource("Shape_unit")
+
+[node name="CubeDestinationA" type="Marker3D" parent="."]
+position = Vector3(2, 0.6, 1.8)
+
+[node name="CubeDestinationB" type="Marker3D" parent="."]
+position = Vector3(2, 0.6, -1.8)
+
+[node name="QuantumCube" parent="." instance=ExtResource("3_cube")]
+observation_manager_path = NodePath("../ObservationManager")
+destination_paths = Array[NodePath]([NodePath("../CubeDestinationA"), NodePath("../CubeDestinationB")])
+starting_destination_index = 0
+avoid_immediate_return = false
+
+[node name="BeamAimA" type="Marker3D" parent="."]
+position = Vector3(2, 0.6, 1.8)
+
+[node name="BeamAimB" type="Marker3D" parent="."]
+position = Vector3(2, 0.6, -1.8)
+
+[node name="StabilizationBeam" parent="." instance=ExtResource("4_beam")]
+position = Vector3(-5.5, 1.1, 0)
+beam_length = 8.0
+beam_width = 1.0
+beam_height = 1.6
+
+[node name="PowerSwitch" parent="." instance=ExtResource("5_switch")]
+position = Vector3(-0.8, 1.2, 3.5)
+beam_path = NodePath("../StabilizationBeam")
+
+[node name="AimSwitch" parent="." instance=ExtResource("5_switch")]
+position = Vector3(0.8, 1.2, 3.5)
+control_mode = 1
+beam_path = NodePath("../StabilizationBeam")
+primary_aim_path = NodePath("../BeamAimA")
+secondary_aim_path = NodePath("../BeamAimB")
+
+[node name="OcclusionPanel" type="StaticBody3D" parent="."]
+position = Vector3(6.5, 1.25, -4.5)
+scale = Vector3(1.2, 2.5, 1.2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OcclusionPanel"]
+material_override = SubResource("Material_wall")
+mesh = SubResource("Mesh_unit")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OcclusionPanel"]
+shape = SubResource("Shape_unit")

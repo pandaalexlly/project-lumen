@@ -14,20 +14,64 @@ var currently_observed: bool:
 	get:
 		return _currently_observed
 
+var directly_observed: bool:
+	get:
+		return _directly_observed
+
+var artificially_observed: bool:
+	get:
+		return _artificially_observed
+
 var _currently_observed: bool = false
+var _directly_observed: bool = false
+var _artificially_observed: bool = false
 var _has_observation_state: bool = false
 
 
 func _physics_process(_delta: float) -> void:
-	if not is_instance_valid(_observation_manager) or not is_instance_valid(_observation_anchor):
+	if not is_instance_valid(_observation_anchor):
 		return
 
-	var is_observed := _evaluate_current_observation()
-	_apply_observation_state(is_observed)
+	_directly_observed = (
+		_evaluate_current_observation()
+		if is_instance_valid(_observation_manager)
+		else false
+	)
+	_artificially_observed = _is_any_artificial_source_observing(
+		_get_current_observation_probe_positions(),
+		self,
+		null
+	)
+	_apply_observation_state(_directly_observed or _artificially_observed)
 
 
 func _evaluate_current_observation() -> bool:
 	return _observation_manager.is_directly_observed(self, _observation_anchor)
+
+
+func _get_current_observation_probe_positions() -> PackedVector3Array:
+	return PackedVector3Array([_observation_anchor.global_position])
+
+
+func _is_any_artificial_source_observing(
+	world_positions: PackedVector3Array,
+	target_root: Node,
+	ignored_root: Node = null
+) -> bool:
+	for source_node in get_tree().get_nodes_in_group(
+		ArtificialObservationSource.SOURCE_GROUP
+	):
+		var source := source_node as ArtificialObservationSource
+		if (
+			source != null
+			and source.observes_any_position(
+				world_positions,
+				target_root,
+				ignored_root
+			)
+		):
+			return true
+	return false
 
 
 func _apply_observation_state(is_observed: bool) -> void:
