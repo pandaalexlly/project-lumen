@@ -89,3 +89,4 @@ position = Vector3(3, 0.7, -2)
 [node name="QuantumCube" parent="." instance=ExtResource("5_quantum_cube")]
 observation_manager_path = NodePath("../ObservationManager")
 destination_paths = Array[NodePath]([NodePath("../QuantumCubePointA"), NodePath("../QuantumCubePointB")])
+avoid_immediate_return = false

@@ -1,20 +1,21 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://scripts/observation/quantum_cube.gd" id="1_quantum_cube"]
+[ext_resource type="Script" path="res://scripts/observation/quantum_door.gd" id="1_quantum_door"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cube"]
-albedo_color = Color(0.08, 0.1, 0.14, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_door"]
+albedo_color = Color(0.07, 0.09, 0.13, 1)
 metallic = 0.3
 roughness = 0.7
 
-[sub_resource type="BoxMesh" id="BoxMesh_cube"]
-material = SubResource("StandardMaterial3D_cube")
+[sub_resource type="BoxMesh" id="BoxMesh_door"]
+material = SubResource("StandardMaterial3D_door")
+size = Vector3(2.3, 2.76, 0.3)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_cube"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_door"]
+size = Vector3(2.3, 2.76, 0.3)
 
-[node name="QuantumCube" type="Node3D"]
-script = ExtResource("1_quantum_cube")
-observation_anchor_path = NodePath("ObservationAnchor")
+[node name="QuantumDoor" type="Node3D"]
+script = ExtResource("1_quantum_door")
 
 [node name="ObservationAnchor" type="Marker3D" parent="."]
 
@@ -23,53 +24,53 @@ observation_anchor_path = NodePath("ObservationAnchor")
 [node name="Center" type="Marker3D" parent="BodyVisibilityProbes"]
 
 [node name="BottomBackLeft" type="Marker3D" parent="BodyVisibilityProbes"]
-position = Vector3(-0.52, -0.52, 0.52)
+position = Vector3(-1.13, -1.36, 0.17)
 
 [node name="BottomBackRight" type="Marker3D" parent="BodyVisibilityProbes"]
-position = Vector3(0.52, -0.52, 0.52)
+position = Vector3(1.13, -1.36, 0.17)
 
 [node name="BottomFrontLeft" type="Marker3D" parent="BodyVisibilityProbes"]
-position = Vector3(-0.52, -0.52, -0.52)
+position = Vector3(-1.13, -1.36, -0.17)
 
 [node name="BottomFrontRight" type="Marker3D" parent="BodyVisibilityProbes"]
-position = Vector3(0.52, -0.52, -0.52)
+position = Vector3(1.13, -1.36, -0.17)
 
 [node name="TopBackLeft" type="Marker3D" parent="BodyVisibilityProbes"]
-position = Vector3(-0.52, 0.52, 0.52)
+position = Vector3(-1.13, 1.36, 0.17)
 
 [node name="TopBackRight" type="Marker3D" parent="BodyVisibilityProbes"]
-position = Vector3(0.52, 0.52, 0.52)
+position = Vector3(1.13, 1.36, 0.17)
 
 [node name="TopFrontLeft" type="Marker3D" parent="BodyVisibilityProbes"]
-position = Vector3(-0.52, 0.52, -0.52)
+position = Vector3(-1.13, 1.36, -0.17)
 
 [node name="TopFrontRight" type="Marker3D" parent="BodyVisibilityProbes"]
-position = Vector3(0.52, 0.52, -0.52)
+position = Vector3(1.13, 1.36, -0.17)
 
 [node name="ShadowVisibilityProbes" type="Node3D" parent="."]
 
 [node name="Center" type="Marker3D" parent="ShadowVisibilityProbes"]
-position = Vector3(-0.2, -0.54, 0.35)
+position = Vector3(-0.15, -1.35, 0.2)
 
 [node name="BackLeft" type="Marker3D" parent="ShadowVisibilityProbes"]
-position = Vector3(-0.85, -0.54, 1)
+position = Vector3(-1.45, -1.35, 0.8)
 
 [node name="BackRight" type="Marker3D" parent="ShadowVisibilityProbes"]
-position = Vector3(0.45, -0.54, 1)
+position = Vector3(1.15, -1.35, 0.8)
 
 [node name="FrontLeft" type="Marker3D" parent="ShadowVisibilityProbes"]
-position = Vector3(-0.85, -0.54, -0.3)
+position = Vector3(-1.45, -1.35, -0.4)
 
 [node name="FrontRight" type="Marker3D" parent="ShadowVisibilityProbes"]
-position = Vector3(0.45, -0.54, -0.3)
+position = Vector3(1.15, -1.35, -0.4)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_cube")
+mesh = SubResource("BoxMesh_door")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_cube")
+shape = SubResource("BoxShape3D_door")
 
 [node name="MoveTimer" type="Timer" parent="."]
 wait_time = 4.0

@@ -1,10 +1,11 @@
-[gd_scene load_steps=47 format=3]
+[gd_scene load_steps=48 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="2_observation_manager"]
 [ext_resource type="PackedScene" path="res://scenes/prototype/quantum_cube.tscn" id="3_quantum_cube"]
 [ext_resource type="PackedScene" path="res://scenes/prototype/pressure_plate.tscn" id="4_plate"]
 [ext_resource type="PackedScene" path="res://scenes/prototype/simple_door.tscn" id="5_door"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/quantum_door.tscn" id="6_quantum_door"]
 
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.2, 0.22, 0.24, 1)
@@ -34,10 +35,10 @@ size = Vector3(7, 0.2, 2)
 
 [sub_resource type="BoxMesh" id="Mesh_connector_lower_floor"]
 material = SubResource("Material_floor")
-size = Vector3(2.5, 0.2, 2)
+size = Vector3(2.7, 0.2, 2)
 
 [sub_resource type="BoxShape3D" id="Shape_connector_lower_floor"]
-size = Vector3(2.5, 0.2, 2)
+size = Vector3(2.7, 0.2, 2)
 
 [sub_resource type="BoxMesh" id="Mesh_application_floor"]
 material = SubResource("Material_floor")
@@ -69,10 +70,10 @@ size = Vector3(0.3, 3.2, 12.3)
 
 [sub_resource type="BoxMesh" id="Mesh_discovery_south_left"]
 material = SubResource("Material_structure")
-size = Vector3(9, 3.2, 0.3)
+size = Vector3(8.45, 3.2, 0.3)
 
 [sub_resource type="BoxShape3D" id="Shape_discovery_south_left"]
-size = Vector3(9, 3.2, 0.3)
+size = Vector3(8.45, 3.2, 0.3)
 
 [sub_resource type="BoxMesh" id="Mesh_horizontal_wall_stub"]
 material = SubResource("Material_structure")
@@ -116,19 +117,19 @@ size = Vector3(4.5, 3.2, 0.3)
 [sub_resource type="BoxShape3D" id="Shape_connector_turn_wall"]
 size = Vector3(4.5, 3.2, 0.3)
 
-[sub_resource type="BoxMesh" id="Mesh_equipment_block"]
-material = SubResource("Material_blocker")
-size = Vector3(3.2, 3, 4)
+[sub_resource type="BoxMesh" id="Mesh_discovery_blocker"]
+material = SubResource("Material_structure")
+size = Vector3(1.8, 3.2, 1.8)
 
-[sub_resource type="BoxShape3D" id="Shape_equipment_block"]
-size = Vector3(3.2, 3, 4)
+[sub_resource type="BoxShape3D" id="Shape_discovery_blocker"]
+size = Vector3(1.8, 3.2, 1.8)
 
-[sub_resource type="BoxMesh" id="Mesh_observation_blind"]
-material = SubResource("Material_blocker")
-size = Vector3(3.4, 3, 0.4)
+[sub_resource type="BoxMesh" id="Mesh_connector_lintel"]
+material = SubResource("Material_structure")
+size = Vector3(2.4, 0.4, 0.3)
 
-[sub_resource type="BoxShape3D" id="Shape_observation_blind"]
-size = Vector3(3.4, 3, 0.4)
+[sub_resource type="BoxShape3D" id="Shape_connector_lintel"]
+size = Vector3(2.4, 0.4, 0.3)
 
 [sub_resource type="BoxMesh" id="Mesh_exit_wall"]
 material = SubResource("Material_structure")
@@ -155,7 +156,7 @@ size = Vector3(4, 0.2, 4)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector3(0, 1, 10)
-rotation_degrees = Vector3(0, 7, 0)
+rotation_degrees = Vector3(0, 45, 0)
 
 [node name="ObservationManager" type="Node" parent="."]
 script = ExtResource("2_observation_manager")
@@ -207,7 +208,7 @@ mesh = SubResource("Mesh_discovery_side_wall")
 shape = SubResource("Shape_discovery_side_wall")
 
 [node name="SouthWallLeft" type="StaticBody3D" parent="DiscoveryChamber/Walls"]
-position = Vector3(-1.5, 1.6, 2)
+position = Vector3(-1.775, 1.6, 2)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="DiscoveryChamber/Walls/SouthWallLeft"]
 mesh = SubResource("Mesh_discovery_south_left")
@@ -224,24 +225,61 @@ mesh = SubResource("Mesh_horizontal_wall_stub")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DiscoveryChamber/Walls/SouthWallRight"]
 shape = SubResource("Shape_horizontal_wall_stub")
 
-[node name="CentralEquipmentBlock" type="StaticBody3D" parent="DiscoveryChamber"]
-position = Vector3(0, 1.5, 5.5)
+[node name="ExitLintel" type="StaticBody3D" parent="DiscoveryChamber/Walls"]
+position = Vector3(3.65, 3, 2)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DiscoveryChamber/CentralEquipmentBlock"]
-mesh = SubResource("Mesh_equipment_block")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DiscoveryChamber/Walls/ExitLintel"]
+mesh = SubResource("Mesh_connector_lintel")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DiscoveryChamber/CentralEquipmentBlock"]
-shape = SubResource("Shape_equipment_block")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DiscoveryChamber/Walls/ExitLintel"]
+shape = SubResource("Shape_connector_lintel")
 
-[node name="DiscoveryPointA" type="Marker3D" parent="DiscoveryChamber"]
-position = Vector3(-4.1, 0.6, 7)
+[node name="CentralBlocker" type="StaticBody3D" parent="DiscoveryChamber"]
+position = Vector3(0, 1.6, 7)
 
-[node name="DiscoveryPointB" type="Marker3D" parent="DiscoveryChamber"]
-position = Vector3(-4.1, 0.6, 3.6)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DiscoveryChamber/CentralBlocker"]
+mesh = SubResource("Mesh_discovery_blocker")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DiscoveryChamber/CentralBlocker"]
+shape = SubResource("Shape_discovery_blocker")
+
+[node name="DiscoveryDestination0" type="Marker3D" parent="DiscoveryChamber"]
+position = Vector3(-4, 0.6, 10)
+
+[node name="DiscoveryDestination1" type="Marker3D" parent="DiscoveryChamber"]
+position = Vector3(3.8, 0.6, 9.5)
+
+[node name="DiscoveryDestination2" type="Marker3D" parent="DiscoveryChamber"]
+position = Vector3(-4.2, 0.6, 6.7)
+
+[node name="DiscoveryDestination3" type="Marker3D" parent="DiscoveryChamber"]
+position = Vector3(4.2, 0.6, 6.5)
+
+[node name="DiscoveryDestination4" type="Marker3D" parent="DiscoveryChamber"]
+position = Vector3(-3.6, 0.6, 3.7)
+
+[node name="DiscoveryDestination5" type="Marker3D" parent="DiscoveryChamber"]
+position = Vector3(1.8, 0.6, 3.8)
 
 [node name="DiscoveryCube" parent="DiscoveryChamber" instance=ExtResource("3_quantum_cube")]
 observation_manager_path = NodePath("../../ObservationManager")
-destination_paths = Array[NodePath]([NodePath("../DiscoveryPointA"), NodePath("../DiscoveryPointB")])
+destination_paths = Array[NodePath]([NodePath("../DiscoveryDestination0"), NodePath("../DiscoveryDestination1"), NodePath("../DiscoveryDestination2"), NodePath("../DiscoveryDestination3"), NodePath("../DiscoveryDestination4"), NodePath("../DiscoveryDestination5")])
+starting_destination_index = 0
+minimum_move_distance = 4.1
+avoid_immediate_return = true
+
+[node name="GatePointA" type="Marker3D" parent="."]
+position = Vector3(3.65, 1.4, 2)
+
+[node name="GatePointB" type="Marker3D" parent="."]
+position = Vector3(-0.75, 1.4, -2)
+
+[node name="QuantumDoor" parent="." instance=ExtResource("6_quantum_door")]
+observation_manager_path = NodePath("../ObservationManager")
+destination_paths = Array[NodePath]([NodePath("../GatePointA"), NodePath("../GatePointB")])
+starting_destination_index = 0
+avoid_immediate_return = false
+player_path = NodePath("../Player")
 
 [node name="Connector" type="Node3D" parent="."]
 
@@ -264,7 +302,7 @@ mesh = SubResource("Mesh_connector_lower_floor")
 shape = SubResource("Shape_connector_lower_floor")
 
 [node name="WestWall" type="StaticBody3D" parent="Connector"]
-position = Vector3(-2, 1.6, 0)
+position = Vector3(-2.1, 1.6, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/WestWall"]
 mesh = SubResource("Mesh_connector_full_wall")
@@ -291,7 +329,7 @@ mesh = SubResource("Mesh_connector_turn_wall")
 shape = SubResource("Shape_connector_turn_wall")
 
 [node name="LowerEastWall" type="StaticBody3D" parent="Connector"]
-position = Vector3(0.5, 1.6, -1)
+position = Vector3(0.6, 1.6, -1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Connector/LowerEastWall"]
 mesh = SubResource("Mesh_connector_side_wall")
@@ -329,6 +367,15 @@ mesh = SubResource("Mesh_application_north_right")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/NorthWallRight"]
 shape = SubResource("Shape_application_north_right")
+
+[node name="EntranceLintel" type="StaticBody3D" parent="ApplicationChamber/Walls"]
+position = Vector3(-0.75, 3, -2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/Walls/EntranceLintel"]
+mesh = SubResource("Mesh_connector_lintel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/EntranceLintel"]
+shape = SubResource("Shape_connector_lintel")
 
 [node name="SouthWallLeft" type="StaticBody3D" parent="ApplicationChamber/Walls"]
 position = Vector3(-3.6, 1.6, -14)
@@ -384,31 +431,30 @@ mesh = SubResource("Mesh_application_side_wall")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/Walls/EastWall"]
 shape = SubResource("Shape_application_side_wall")
 
-[node name="ObservationBlind" type="StaticBody3D" parent="ApplicationChamber"]
-position = Vector3(4, 1.5, -8)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ApplicationChamber/ObservationBlind"]
-mesh = SubResource("Mesh_observation_blind")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/ObservationBlind"]
-shape = SubResource("Shape_observation_blind")
-
 [node name="PressurePlate" parent="ApplicationChamber" instance=ExtResource("4_plate")]
 position = Vector3(3.6, 0.02, -11.5)
 target_path = NodePath("../ApplicationCube")
 
 [node name="ExitDoor" parent="ApplicationChamber" instance=ExtResource("5_door")]
 position = Vector3(0, 1.2, -14)
+open_offset = Vector3(0, 3.3, 0)
 
-[node name="ApplicationPointA" type="Marker3D" parent="ApplicationChamber"]
-position = Vector3(-3.6, 0.6, -11.5)
+[node name="ApplicationStart" type="Marker3D" parent="ApplicationChamber"]
+position = Vector3(5.15, 0.6, -13.15)
 
-[node name="ApplicationPointB" type="Marker3D" parent="ApplicationChamber"]
+[node name="ApplicationIntermediate" type="Marker3D" parent="ApplicationChamber"]
+position = Vector3(-4.2, 0.6, -8.3)
+
+[node name="ApplicationPlate" type="Marker3D" parent="ApplicationChamber"]
 position = Vector3(3.6, 0.6, -11.5)
 
 [node name="ApplicationCube" parent="ApplicationChamber" instance=ExtResource("3_quantum_cube")]
 observation_manager_path = NodePath("../../ObservationManager")
-destination_paths = Array[NodePath]([NodePath("../ApplicationPointA"), NodePath("../ApplicationPointB")])
+destination_paths = Array[NodePath]([NodePath("../ApplicationStart"), NodePath("../ApplicationIntermediate"), NodePath("../ApplicationPlate")])
+starting_destination_index = 0
+first_move_excluded_paths = Array[NodePath]([NodePath("../ApplicationPlate")])
+minimum_move_distance = 2.0
+avoid_immediate_return = true
 
 [connection signal="activated" from="ApplicationChamber/PressurePlate" to="ApplicationChamber/ExitDoor" method="open"]
 [connection signal="deactivated" from="ApplicationChamber/PressurePlate" to="ApplicationChamber/ExitDoor" method="close"]
