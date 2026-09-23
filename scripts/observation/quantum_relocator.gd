@@ -9,7 +9,7 @@ const DESTINATION_RECHECK_INTERVAL: float = 0.1
 @export var minimum_move_distance: float = 0.0
 @export var avoid_immediate_return: bool = true
 # Provisional gameplay-testing value, not a finalized world-rule constant.
-@export var unobserved_delay: float = 4.0
+@export var unobserved_delay: float = 2.5
 @export var destination_hidden_grace: float = 0.2
 @export_range(0.0, 0.25, 0.01) var destination_viewport_margin: float = 0.1
 @export var debug_output: bool = true
@@ -241,6 +241,10 @@ func _choose_safe_destination() -> int:
 	for index in range(_destinations.size()):
 		if _is_destination_eligible(index) and not _is_destination_envelope_unsafe(_get_destination(index)):
 			safe_indices.append(index)
+	return _select_safe_destination(safe_indices)
+
+
+func _select_safe_destination(safe_indices: Array[int]) -> int:
 	if safe_indices.is_empty():
 		return -1
 	return safe_indices[randi_range(0, safe_indices.size() - 1)]

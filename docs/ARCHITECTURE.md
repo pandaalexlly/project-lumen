@@ -6,6 +6,8 @@
 - `ObservableObject`: Owns per-object observation state and transitions.
 - `QuantumRelocator`: Owns shared observation-driven relocation behavior.
 - `QuantumCube` and `QuantumDoor`: Thin `QuantumRelocator` specializations.
+- `ApplicationQuantumCube`: Adds the Application room's bounded-random policy.
+- `PrototypeSessionController`: Owns restart, fall recovery, and completion state.
 
 The explicitly assigned primary `Camera3D` is the only authoritative camera.
 Direct observation currently requires both frustum visibility and unobstructed
@@ -42,6 +44,18 @@ duplicating selection. `QuantumDoor` uses this hook to require that its door
 collision shape, transformed to the candidate doorway, does not overlap the
 configured player.
 
-The exported `unobserved_delay` defaults to **4.0 seconds**, a provisional
+After generic eligibility and Observation Envelope safety are evaluated,
+subclasses may choose from the resulting safe destination indices.
+`ApplicationQuantumCube` uses only this selection hook: it excludes the Plate
+before a randomly chosen third or fourth successful relocation, requires the
+Plate on that move, and waits if the Plate is unsafe. Later moves return to the
+generic random policy.
+
+The exported `unobserved_delay` defaults to **2.5 seconds**, a provisional
 shared observation-release interval used by both prototype chambers. It is a
-gameplay-testing value, not finalized lore.
+gameplay-testing value, not finalized lore. The separate destination-hidden
+grace remains **0.2 seconds**.
+
+The session controller is independent of anomaly logic. It reloads Observation
+Lab on `R` or an invalid fall, and pauses the scene with a minimal completion
+overlay only after the Player enters the exit trigger beyond the final door.

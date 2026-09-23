@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3]
+[gd_scene load_steps=51 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="2_observation_manager"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" path="res://scenes/prototype/pressure_plate.tscn" id="4_plate"]
 [ext_resource type="PackedScene" path="res://scenes/prototype/simple_door.tscn" id="5_door"]
 [ext_resource type="PackedScene" path="res://scenes/prototype/quantum_door.tscn" id="6_quantum_door"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/application_quantum_cube.tscn" id="7_application_quantum_cube"]
+[ext_resource type="Script" path="res://scripts/prototype/prototype_session_controller.gd" id="8_session_controller"]
 
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.2, 0.22, 0.24, 1)
@@ -152,6 +154,9 @@ size = Vector3(4, 0.2, 4)
 [sub_resource type="BoxShape3D" id="Shape_landing"]
 size = Vector3(4, 0.2, 4)
 
+[sub_resource type="BoxShape3D" id="Shape_prototype_exit"]
+size = Vector3(3, 2, 2)
+
 [node name="ObservationLab" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
@@ -161,6 +166,13 @@ rotation_degrees = Vector3(0, 45, 0)
 [node name="ObservationManager" type="Node" parent="."]
 script = ExtResource("2_observation_manager")
 primary_camera_path = NodePath("../Player/Head/Camera3D")
+
+[node name="PrototypeSessionController" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("8_session_controller")
+player_path = NodePath("../Player")
+exit_trigger_path = NodePath("../PrototypeExitTrigger")
+completion_overlay_path = NodePath("../CompletionOverlay/Overlay")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 rotation_degrees = Vector3(-60, -30, 0)
@@ -413,6 +425,14 @@ mesh = SubResource("Mesh_landing")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ApplicationChamber/ExitLanding"]
 shape = SubResource("Shape_landing")
 
+[node name="PrototypeExitTrigger" type="Area3D" parent="."]
+position = Vector3(0, 1, -16)
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PrototypeExitTrigger"]
+shape = SubResource("Shape_prototype_exit")
+
 [node name="WestWall" type="StaticBody3D" parent="ApplicationChamber/Walls"]
 position = Vector3(-6, 1.6, -8)
 
@@ -442,19 +462,62 @@ open_offset = Vector3(0, 3.3, 0)
 [node name="ApplicationStart" type="Marker3D" parent="ApplicationChamber"]
 position = Vector3(5.15, 0.6, -13.15)
 
-[node name="ApplicationIntermediate" type="Marker3D" parent="ApplicationChamber"]
-position = Vector3(-4.2, 0.6, -8.3)
+[node name="ApplicationIntermediateA" type="Marker3D" parent="ApplicationChamber"]
+position = Vector3(-4.4, 0.6, -11)
+
+[node name="ApplicationIntermediateB" type="Marker3D" parent="ApplicationChamber"]
+position = Vector3(-2.1, 0.6, -4.4)
+
+[node name="ApplicationIntermediateC" type="Marker3D" parent="ApplicationChamber"]
+position = Vector3(3.9, 0.6, -7.1)
 
 [node name="ApplicationPlate" type="Marker3D" parent="ApplicationChamber"]
 position = Vector3(3.6, 0.6, -11.5)
 
-[node name="ApplicationCube" parent="ApplicationChamber" instance=ExtResource("3_quantum_cube")]
+[node name="ApplicationCube" parent="ApplicationChamber" instance=ExtResource("7_application_quantum_cube")]
 observation_manager_path = NodePath("../../ObservationManager")
-destination_paths = Array[NodePath]([NodePath("../ApplicationStart"), NodePath("../ApplicationIntermediate"), NodePath("../ApplicationPlate")])
+destination_paths = Array[NodePath]([NodePath("../ApplicationStart"), NodePath("../ApplicationIntermediateA"), NodePath("../ApplicationIntermediateB"), NodePath("../ApplicationIntermediateC"), NodePath("../ApplicationPlate")])
 starting_destination_index = 0
-first_move_excluded_paths = Array[NodePath]([NodePath("../ApplicationPlate")])
 minimum_move_distance = 2.0
 avoid_immediate_return = true
+guaranteed_destination_path = NodePath("../ApplicationPlate")
+
+[node name="CompletionOverlay" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Overlay" type="ColorRect" parent="CompletionOverlay"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="CenterContainer" type="CenterContainer" parent="CompletionOverlay/Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CompletionOverlay/Overlay/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="CompletionOverlay/Overlay/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "PROTOTYPE COMPLETE"
+horizontal_alignment = 1
+
+[node name="Restart" type="Label" parent="CompletionOverlay/Overlay/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "R - Restart"
+horizontal_alignment = 1
 
 [connection signal="activated" from="ApplicationChamber/PressurePlate" to="ApplicationChamber/ExitDoor" method="open"]
 [connection signal="deactivated" from="ApplicationChamber/PressurePlate" to="ApplicationChamber/ExitDoor" method="close"]

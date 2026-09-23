@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/prototype/quantum_cube.tscn" id="1_quantum_cube"]
+[ext_resource type="Script" path="res://scripts/observation/application_quantum_cube.gd" id="2_application_quantum_cube"]
+
+[node name="ApplicationQuantumCube" instance=ExtResource("1_quantum_cube")]
+script = ExtResource("2_application_quantum_cube")

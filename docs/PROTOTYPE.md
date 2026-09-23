@@ -14,6 +14,13 @@ the shared observation rule is necessary to move it through both positions;
 this is the prototype's first case where knowledge directly grants access to a
 new space.
 
-Application retains its cube, pressure plate, and final pressure-controlled
-exit puzzle. Both anomalous object types use the same provisional 4.0-second
+Application uses five irregular cube positions. The Plate is excluded from the
+first moves, then safely guaranteed on either the third or fourth successful
+relocation; this preserves uncertainty without permitting an endless random
+grind. Moving the cube away later still releases the Plate and closes the final
+door. Both anomalous object types use the same provisional 2.5-second
 observation-release interval.
+
+Walking through the opened final door reaches a minimal prototype-complete
+state. `R` restarts the full session, and falling out of the graybox also
+reloads it.

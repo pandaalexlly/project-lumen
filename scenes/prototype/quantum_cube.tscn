@@ -72,5 +72,5 @@ mesh = SubResource("BoxMesh_cube")
 shape = SubResource("BoxShape3D_cube")
 
 [node name="MoveTimer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 2.5
 one_shot = true
