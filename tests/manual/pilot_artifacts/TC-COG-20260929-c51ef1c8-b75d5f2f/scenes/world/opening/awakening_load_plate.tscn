@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/pressure_plate.gd" id="plate"]
+[ext_resource type="Script" path="res://scripts/world/awakening_plate_feedback.gd" id="feedback"]
+
+[sub_resource type="StandardMaterial3D" id="alloy"]
+albedo_color = Color(0.18, 0.205, 0.21, 1)
+metallic = 0.55
+roughness = 0.69
+
+[sub_resource type="StandardMaterial3D" id="dial"]
+albedo_color = Color(0.35, 0.34, 0.27, 1)
+roughness = 0.82
+
+[sub_resource type="BoxMesh" id="unit"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="detection"]
+size = Vector3(1.55, 1.12, 1.55)
+
+[sub_resource type="BoxMesh" id="surface"]
+size = Vector3(1.64, 0.08, 1.64)
+
+[node name="AwakeningLoadPlate" type="Area3D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("plate")
+inactive_material = SubResource("alloy")
+active_material = SubResource("alloy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("surface")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.55, 0)
+shape = SubResource("detection")
+
+[node name="PhysicalFeedback" type="Node3D" parent="."]
+script = ExtResource("feedback")
+
+[node name="Surface" type="MeshInstance3D" parent="PhysicalFeedback"]
+position = Vector3(0, 0.025, 0)
+mesh = SubResource("surface")
+material_override = SubResource("alloy")
+
+[node name="BearingWest" type="MeshInstance3D" parent="PhysicalFeedback"]
+position = Vector3(-0.87, -0.015, 0)
+scale = Vector3(0.085, 0.1, 1.86)
+mesh = SubResource("unit")
+material_override = SubResource("alloy")
+
+[node name="BearingEast" type="MeshInstance3D" parent="PhysicalFeedback"]
+position = Vector3(0.87, -0.015, 0)
+scale = Vector3(0.085, 0.1, 1.86)
+mesh = SubResource("unit")
+material_override = SubResource("alloy")
+
+[node name="BearingNorth" type="MeshInstance3D" parent="PhysicalFeedback"]
+position = Vector3(0, -0.015, -0.87)
+scale = Vector3(1.8, 0.1, 0.085)
+mesh = SubResource("unit")
+material_override = SubResource("alloy")
+
+[node name="BearingSouth" type="MeshInstance3D" parent="PhysicalFeedback"]
+position = Vector3(0, -0.015, 0.87)
+scale = Vector3(1.8, 0.1, 0.085)
+mesh = SubResource("unit")
+material_override = SubResource("alloy")
+
+[node name="LoadCell" type="Node3D" parent="PhysicalFeedback"]
+position = Vector3(-0.82, 0.18, 0.94)
+
+[node name="Housing" type="MeshInstance3D" parent="PhysicalFeedback/LoadCell"]
+scale = Vector3(0.5, 0.35, 0.09)
+mesh = SubResource("unit")
+material_override = SubResource("alloy")
+
+[node name="Face" type="MeshInstance3D" parent="PhysicalFeedback/LoadCell"]
+position = Vector3(0, 0, 0.055)
+scale = Vector3(0.37, 0.25, 0.015)
+mesh = SubResource("unit")
+material_override = SubResource("dial")
+
+[node name="Needle" type="Node3D" parent="PhysicalFeedback/LoadCell"]
+position = Vector3(0, -0.07, 0.07)
+
+[node name="NeedleMesh" type="MeshInstance3D" parent="PhysicalFeedback/LoadCell/Needle"]
+position = Vector3(0, 0.075, 0)
+scale = Vector3(0.016, 0.15, 0.02)
+mesh = SubResource("unit")
+material_override = SubResource("alloy")

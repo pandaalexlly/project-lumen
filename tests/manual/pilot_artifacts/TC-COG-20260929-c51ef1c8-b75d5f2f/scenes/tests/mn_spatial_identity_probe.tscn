@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/mn_identity_probe.gd" id="1_probe"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="3_observation"]
+
+[node name="MNSpatialIdentityProbe" type="Node3D"]
+script = ExtResource("1_probe")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector3(0, 0.92, 9.2)
+
+[node name="ObservationManager" type="Node" parent="."]
+script = ExtResource("3_observation")
+primary_camera_path = NodePath("../Player/Head/Camera3D")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.85, -0.5, 0)
+light_energy = 0.9
+
+[node name="AtriumLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 3.3, 5)
+light_energy = 3.5
+omni_range = 18.0
+
+[node name="RearLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 3.3, -3)
+light_energy = 2.5
+omni_range = 15.0

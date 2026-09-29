@@ -1,0 +1,234 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/observation/coherent_assembly.gd" id="1_assembly"]
+
+[sub_resource type="StandardMaterial3D" id="Material_member"]
+albedo_color = Color(0.1, 0.4, 0.47, 1)
+metallic = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Material_cube"]
+albedo_color = Color(0.08, 0.12, 0.19, 1)
+metallic = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Material_repair"]
+albedo_color = Color(0.31, 0.32, 0.29, 1)
+metallic = 0.35
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="Mesh_cube"]
+size = Vector3(1, 1, 1)
+material = SubResource("Material_cube")
+
+[sub_resource type="BoxShape3D" id="Shape_cube"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_deck"]
+size = Vector3(4, 0.2, 4)
+material = SubResource("Material_member")
+
+[sub_resource type="BoxShape3D" id="Shape_deck"]
+size = Vector3(4, 0.2, 4)
+
+[sub_resource type="BoxMesh" id="Mesh_bar"]
+size = Vector3(4, 0.25, 0.25)
+material = SubResource("Material_member")
+
+[sub_resource type="BoxShape3D" id="Shape_bar"]
+size = Vector3(4, 0.25, 0.25)
+
+[node name="CoherentAssembly" type="Node3D"]
+script = ExtResource("1_assembly")
+observation_anchor_path = NodePath("ObservationAnchor")
+
+[node name="ObservationAnchor" type="Marker3D" parent="."]
+
+[node name="Members" type="Node3D" parent="."]
+
+[node name="Cube" type="Node3D" parent="Members"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Members/Cube"]
+position = Vector3(0, 0.65, -1.2)
+mesh = SubResource("Mesh_cube")
+
+[node name="Body" type="StaticBody3D" parent="Members/Cube"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Cube/Body"]
+position = Vector3(0, 0.65, -1.2)
+shape = SubResource("Shape_cube")
+
+[node name="VisibilityProbes" type="Node3D" parent="Members/Cube"]
+
+[node name="Center" type="Marker3D" parent="Members/Cube/VisibilityProbes"]
+position = Vector3(0, 0.65, -1.2)
+
+[node name="UpperLeft" type="Marker3D" parent="Members/Cube/VisibilityProbes"]
+position = Vector3(-0.48, 1.13, -0.72)
+
+[node name="UpperRight" type="Marker3D" parent="Members/Cube/VisibilityProbes"]
+position = Vector3(0.48, 1.13, -0.72)
+
+[node name="LowerLeft" type="Marker3D" parent="Members/Cube/VisibilityProbes"]
+position = Vector3(-0.48, 0.17, -1.68)
+
+[node name="LowerRight" type="Marker3D" parent="Members/Cube/VisibilityProbes"]
+position = Vector3(0.48, 0.17, -1.68)
+
+[node name="Bearer" type="Node3D" parent="Members"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Members/Bearer"]
+position = Vector3(0, 0.16, -1.9)
+mesh = SubResource("Mesh_bar")
+
+[node name="Body" type="StaticBody3D" parent="Members/Bearer"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Bearer/Body"]
+position = Vector3(0, 0.16, -1.9)
+shape = SubResource("Shape_bar")
+
+[node name="CubeSpine" type="MeshInstance3D" parent="Members/Bearer"]
+position = Vector3(0, 0.12, -1.45)
+scale = Vector3(0.125, 1.6, 4.4)
+mesh = SubResource("Mesh_bar")
+
+[node name="SpineBody" type="StaticBody3D" parent="Members/Bearer"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Bearer/SpineBody"]
+position = Vector3(0, 0.12, -1.45)
+scale = Vector3(0.125, 1.6, 4.4)
+shape = SubResource("Shape_bar")
+
+[node name="VisibilityProbes" type="Node3D" parent="Members/Bearer"]
+
+[node name="LeftEdge" type="Marker3D" parent="Members/Bearer/VisibilityProbes"]
+position = Vector3(-1.96, 0.27, -1.9)
+
+[node name="RightEdge" type="Marker3D" parent="Members/Bearer/VisibilityProbes"]
+position = Vector3(1.96, 0.27, -1.9)
+
+[node name="SpineFront" type="Marker3D" parent="Members/Bearer/VisibilityProbes"]
+position = Vector3(0, 0.3, -1.95)
+
+[node name="SpineRear" type="Marker3D" parent="Members/Bearer/VisibilityProbes"]
+position = Vector3(0, 0.3, -0.95)
+
+[node name="Cradle" type="Node3D" parent="Members"]
+
+[node name="DeckMesh" type="MeshInstance3D" parent="Members/Cradle"]
+position = Vector3(0, -0.1, 0)
+mesh = SubResource("Mesh_deck")
+
+[node name="BearingBody" type="StaticBody3D" parent="Members/Cradle"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Cradle/BearingBody"]
+position = Vector3(0, -0.1, 0)
+shape = SubResource("Shape_deck")
+
+[node name="VisibilityProbes" type="Node3D" parent="Members/Cradle"]
+
+[node name="RearCenter" type="Marker3D" parent="Members/Cradle/VisibilityProbes"]
+position = Vector3(0, -0.01, 1.96)
+
+[node name="RearLeft" type="Marker3D" parent="Members/Cradle/VisibilityProbes"]
+position = Vector3(-1.96, -0.01, 1.96)
+
+[node name="RearRight" type="Marker3D" parent="Members/Cradle/VisibilityProbes"]
+position = Vector3(1.96, -0.01, 1.96)
+
+[node name="FrontLeft" type="Marker3D" parent="Members/Cradle/VisibilityProbes"]
+position = Vector3(-1.96, -0.01, -1.96)
+
+[node name="FrontRight" type="Marker3D" parent="Members/Cradle/VisibilityProbes"]
+position = Vector3(1.96, -0.01, -1.96)
+
+[node name="Collar" type="Node3D" parent="Members"]
+
+[node name="LeftPost" type="MeshInstance3D" parent="Members/Collar"]
+position = Vector3(-1.75, 1.45, -2)
+mesh = SubResource("Mesh_bar")
+scale = Vector3(0.0625, 11.6, 1)
+
+[node name="LeftBody" type="StaticBody3D" parent="Members/Collar"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Collar/LeftBody"]
+position = Vector3(-1.75, 1.45, -2)
+scale = Vector3(0.0625, 11.6, 1)
+shape = SubResource("Shape_bar")
+
+[node name="RightPost" type="MeshInstance3D" parent="Members/Collar"]
+position = Vector3(1.75, 1.45, -2)
+mesh = SubResource("Mesh_bar")
+scale = Vector3(0.0625, 11.6, 1)
+
+[node name="RightBody" type="StaticBody3D" parent="Members/Collar"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Collar/RightBody"]
+position = Vector3(1.75, 1.45, -2)
+scale = Vector3(0.0625, 11.6, 1)
+shape = SubResource("Shape_bar")
+
+[node name="Lintel" type="MeshInstance3D" parent="Members/Collar"]
+position = Vector3(0, 2.9, -2)
+mesh = SubResource("Mesh_bar")
+
+[node name="LintelBody" type="StaticBody3D" parent="Members/Collar"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Collar/LintelBody"]
+position = Vector3(0, 2.9, -2)
+shape = SubResource("Shape_bar")
+
+[node name="RepairGusset" type="MeshInstance3D" parent="Members/Collar"]
+position = Vector3(1.5, 0.43, -2)
+rotation_degrees = Vector3(0, 0, 28)
+scale = Vector3(0.18, 0.48, 0.8)
+mesh = SubResource("Mesh_bar")
+material_override = SubResource("Material_repair")
+
+[node name="RepairGussetBody" type="StaticBody3D" parent="Members/Collar"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Collar/RepairGussetBody"]
+position = Vector3(1.5, 0.43, -2)
+rotation_degrees = Vector3(0, 0, 28)
+scale = Vector3(0.18, 0.48, 0.8)
+shape = SubResource("Shape_bar")
+
+[node name="RepairPlate" type="MeshInstance3D" parent="Members/Collar"]
+position = Vector3(1.75, 0.58, -2.1)
+scale = Vector3(0.06, 2.4, 0.32)
+mesh = SubResource("Mesh_bar")
+material_override = SubResource("Material_repair")
+
+[node name="RepairPlateBody" type="StaticBody3D" parent="Members/Collar"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Members/Collar/RepairPlateBody"]
+position = Vector3(1.75, 0.58, -2.1)
+scale = Vector3(0.06, 2.4, 0.32)
+shape = SubResource("Shape_bar")
+
+[node name="VisibilityProbes" type="Node3D" parent="Members/Collar"]
+
+[node name="LeftPostLower" type="Marker3D" parent="Members/Collar/VisibilityProbes"]
+position = Vector3(-1.75, 0.3, -2)
+
+[node name="LeftPostUpper" type="Marker3D" parent="Members/Collar/VisibilityProbes"]
+position = Vector3(-1.75, 2.6, -2)
+
+[node name="RightPostLower" type="Marker3D" parent="Members/Collar/VisibilityProbes"]
+position = Vector3(1.75, 0.3, -2)
+
+[node name="RightPostUpper" type="Marker3D" parent="Members/Collar/VisibilityProbes"]
+position = Vector3(1.75, 2.6, -2)
+
+[node name="LintelCenter" type="Marker3D" parent="Members/Collar/VisibilityProbes"]
+position = Vector3(0, 2.9, -2)
+
+[node name="RepairGussetOuter" type="Marker3D" parent="Members/Collar/VisibilityProbes"]
+position = Vector3(1.81, 0.55, -2)
+
+[node name="RepairGussetInner" type="Marker3D" parent="Members/Collar/VisibilityProbes"]
+position = Vector3(1.19, 0.31, -2)
+
+[node name="RepairPlateUpper" type="Marker3D" parent="Members/Collar/VisibilityProbes"]
+position = Vector3(1.75, 0.85, -2.13)
+
+[node name="MoveTimer" type="Timer" parent="."]
+one_shot = true

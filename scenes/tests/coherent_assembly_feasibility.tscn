@@ -1,0 +1,304 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/observation/coherent_assembly.tscn" id="2_assembly"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/stabilization_beam.tscn" id="3_beam"]
+[ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="4_manager"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/stabilization_beam_switch.tscn" id="5_switch"]
+[ext_resource type="Script" path="res://scripts/observation/coherent_assembly_fixture.gd" id="6_setup"]
+
+[sub_resource type="StandardMaterial3D" id="Material_fixed"]
+albedo_color = Color(0.24, 0.27, 0.29, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_floor"]
+size = Vector3(1, 1, 1)
+material = SubResource("Material_fixed")
+
+[sub_resource type="BoxShape3D" id="Shape_floor"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_cover"]
+albedo_color = Color(0.37, 0.35, 0.31, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_cover"]
+size = Vector3(1, 1, 1)
+material = SubResource("Material_cover")
+
+[sub_resource type="BoxShape3D" id="Shape_cover"]
+size = Vector3(1, 1, 1)
+
+[node name="CoherentAssemblyFeasibility" type="Node3D"]
+script = ExtResource("6_setup")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector3(-4.4, 0.92, -0.5)
+
+[node name="ObservationManager" type="Node" parent="."]
+script = ExtResource("4_manager")
+primary_camera_path = NodePath("../Player/Head/Camera3D")
+
+[node name="ConfigurationA" type="Marker3D" parent="."]
+position = Vector3(-8, 0, 0)
+
+[node name="ConfigurationB" type="Marker3D" parent="."]
+position = Vector3(8, 0, 0)
+
+[node name="ConfigurationC" type="Marker3D" parent="."]
+position = Vector3(0, 0, -14)
+
+[node name="CoherentAssembly" parent="." instance=ExtResource("2_assembly")]
+observation_manager_path = NodePath("../ObservationManager")
+configuration_paths = Array[NodePath]([NodePath("../ConfigurationA"), NodePath("../ConfigurationB"), NodePath("../ConfigurationC")])
+player_path = NodePath("../Player")
+fixed_support_paths = Array[NodePath]([NodePath("../Fixed/Ground"), NodePath("../Fixed/LandingA"), NodePath("../Fixed/LandingB"), NodePath("../Fixed/LandingC"), NodePath("../Fixed/SouthWalkway"), NodePath("../Fixed/ConnectingWalkway")])
+
+[node name="StabilizationBeam" parent="." instance=ExtResource("3_beam")]
+position = Vector3(-4.5, 1.6, -3.5)
+initially_enabled = true
+player_path = NodePath("../Player")
+
+[node name="BeamB" parent="." instance=ExtResource("3_beam")]
+position = Vector3(16, 1.6, -3.5)
+player_path = NodePath("../Player")
+
+[node name="BeamC" parent="." instance=ExtResource("3_beam")]
+position = Vector3(3.5, 1.6, -18)
+player_path = NodePath("../Player")
+
+[node name="BeamASwitch" parent="." instance=ExtResource("5_switch")]
+position = Vector3(-3.3, 1.1, -3.7)
+beam_path = NodePath("../StabilizationBeam")
+
+[node name="BeamBSwitch" parent="." instance=ExtResource("5_switch")]
+position = Vector3(11.5, 1.1, 1.3)
+beam_path = NodePath("../BeamB")
+
+[node name="BeamCSwitch" parent="." instance=ExtResource("5_switch")]
+position = Vector3(4.4, 1.1, -17.6)
+beam_path = NodePath("../BeamC")
+
+[node name="Fixed" type="Node3D" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="Fixed"]
+position = Vector3(0, -1.05, -7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/Ground"]
+scale = Vector3(48, 1, 40)
+mesh = SubResource("Mesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/Ground"]
+scale = Vector3(48, 1, 40)
+shape = SubResource("Shape_floor")
+
+[node name="LandingA" type="StaticBody3D" parent="Fixed"]
+position = Vector3(-3.95, -0.1, -1.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/LandingA"]
+scale = Vector3(4, 0.2, 6.5)
+mesh = SubResource("Mesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/LandingA"]
+scale = Vector3(4, 0.2, 6.5)
+shape = SubResource("Shape_floor")
+
+[node name="LandingB" type="StaticBody3D" parent="Fixed"]
+position = Vector3(12.1, -0.1, -1.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/LandingB"]
+scale = Vector3(4.1, 0.2, 6.5)
+mesh = SubResource("Mesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/LandingB"]
+scale = Vector3(4.1, 0.2, 6.5)
+shape = SubResource("Shape_floor")
+
+[node name="LandingC" type="StaticBody3D" parent="Fixed"]
+position = Vector3(3.5, -0.1, -15.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/LandingC"]
+scale = Vector3(2.9, 0.2, 6.5)
+mesh = SubResource("Mesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/LandingC"]
+scale = Vector3(2.9, 0.2, 6.5)
+shape = SubResource("Shape_floor")
+
+[node name="SouthWalkway" type="StaticBody3D" parent="Fixed"]
+position = Vector3(4.1, -0.1, -3.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/SouthWalkway"]
+scale = Vector3(20.2, 0.2, 2.2)
+mesh = SubResource("Mesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/SouthWalkway"]
+scale = Vector3(20.2, 0.2, 2.2)
+shape = SubResource("Shape_floor")
+
+[node name="ConnectingWalkway" type="StaticBody3D" parent="Fixed"]
+position = Vector3(5.2, -0.1, -9.1)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/ConnectingWalkway"]
+scale = Vector3(2.6, 0.2, 11)
+mesh = SubResource("Mesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/ConnectingWalkway"]
+scale = Vector3(2.6, 0.2, 11)
+shape = SubResource("Shape_floor")
+
+[node name="CoverA" type="Node3D" parent="Fixed"]
+position = Vector3(-8, 0, 0)
+
+[node name="CoverB" type="Node3D" parent="Fixed"]
+position = Vector3(8, 0, 0)
+
+[node name="CoverC" type="Node3D" parent="Fixed"]
+position = Vector3(0, 0, -14)
+
+[node name="DiagnosticScreen" type="StaticBody3D" parent="Fixed"]
+position = Vector3(-5.82, 1.2, -0.7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/DiagnosticScreen"]
+scale = Vector3(0.12, 2.4, 1.1)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/DiagnosticScreen"]
+scale = Vector3(0.12, 2.4, 1.1)
+shape = SubResource("Shape_cover")
+
+[node name="NorthWall" type="StaticBody3D" parent="Fixed/CoverA"]
+position = Vector3(0, 1.2, 2.7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverA/NorthWall"]
+scale = Vector3(4.8, 2.4, 0.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverA/NorthWall"]
+scale = Vector3(4.8, 2.4, 0.2)
+shape = SubResource("Shape_cover")
+
+[node name="WestWall" type="StaticBody3D" parent="Fixed/CoverA"]
+position = Vector3(-2.4, 1.2, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverA/WestWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverA/WestWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="EastWall" type="StaticBody3D" parent="Fixed/CoverA"]
+position = Vector3(2.4, 1.2, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverA/EastWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverA/EastWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="Roof" type="StaticBody3D" parent="Fixed/CoverA"]
+position = Vector3(0, 2.5, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverA/Roof"]
+scale = Vector3(4.8, 0.2, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverA/Roof"]
+scale = Vector3(4.8, 0.2, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="NorthWall" type="StaticBody3D" parent="Fixed/CoverB"]
+position = Vector3(0, 1.2, 2.7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverB/NorthWall"]
+scale = Vector3(4.8, 2.4, 0.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverB/NorthWall"]
+scale = Vector3(4.8, 2.4, 0.2)
+shape = SubResource("Shape_cover")
+
+[node name="WestWall" type="StaticBody3D" parent="Fixed/CoverB"]
+position = Vector3(-2.4, 1.2, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverB/WestWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverB/WestWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="EastWall" type="StaticBody3D" parent="Fixed/CoverB"]
+position = Vector3(2.4, 1.2, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverB/EastWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverB/EastWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="Roof" type="StaticBody3D" parent="Fixed/CoverB"]
+position = Vector3(0, 2.5, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverB/Roof"]
+scale = Vector3(4.8, 0.2, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverB/Roof"]
+scale = Vector3(4.8, 0.2, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="NorthWall" type="StaticBody3D" parent="Fixed/CoverC"]
+position = Vector3(0, 1.2, 2.7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverC/NorthWall"]
+scale = Vector3(4.8, 2.4, 0.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverC/NorthWall"]
+scale = Vector3(4.8, 2.4, 0.2)
+shape = SubResource("Shape_cover")
+
+[node name="WestWall" type="StaticBody3D" parent="Fixed/CoverC"]
+position = Vector3(-2.4, 1.2, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverC/WestWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverC/WestWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="EastWall" type="StaticBody3D" parent="Fixed/CoverC"]
+position = Vector3(2.4, 1.2, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverC/EastWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverC/EastWall"]
+scale = Vector3(0.2, 2.4, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="Roof" type="StaticBody3D" parent="Fixed/CoverC"]
+position = Vector3(0, 2.5, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Fixed/CoverC/Roof"]
+scale = Vector3(4.8, 0.2, 1.2)
+mesh = SubResource("Mesh_cover")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fixed/CoverC/Roof"]
+scale = Vector3(4.8, 0.2, 1.2)
+shape = SubResource("Shape_cover")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.8, 0.4, 0)
+light_energy = 0.8

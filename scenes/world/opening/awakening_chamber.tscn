@@ -1,0 +1,727 @@
+[gd_scene load_steps=44 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/observation/observation_manager.gd" id="2_observation"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/quantum_cube.tscn" id="3_cube"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/greybox/facility_block.tscn" id="4_block"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/greybox/facility_door_frame.tscn" id="5_frame"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/greybox/dead_console.tscn" id="6_console"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/greybox/equipment_crate.tscn" id="7_crate"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/greybox/emergency_light.tscn" id="8_light"]
+[ext_resource type="Script" path="res://scripts/world/awakening_chamber.gd" id="9_chamber"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/greybox/service_control.tscn" id="10_control"]
+[ext_resource type="PackedScene" path="res://scenes/world/opening/awakening_dressing.tscn" id="11_dressing"]
+[ext_resource type="PackedScene" path="res://scenes/world/opening/awakening_workspaces.tscn" id="12_workspaces"]
+[ext_resource type="Material" path="res://scenes/world/environment/materials/floor_composite.tres" id="13_floor"]
+[ext_resource type="Material" path="res://scenes/world/environment/materials/wall_finish.tres" id="14_wall"]
+[ext_resource type="Material" path="res://scenes/world/environment/materials/painted_alloy.tres" id="15_metal"]
+[ext_resource type="Script" path="res://scripts/world/awakening_relocation_feedback.gd" id="16_relocation_feedback"]
+[ext_resource type="PackedScene" path="res://scenes/world/hub/operations_atrium.tscn" id="17_hub"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/stabilization_beam.tscn" id="18_beam"]
+[ext_resource type="Script" path="res://scripts/world/awakening_beam_breaker.gd" id="19_breaker"]
+[ext_resource type="PackedScene" path="res://scenes/world/opening/awakening_load_plate.tscn" id="20_plate"]
+[ext_resource type="Script" path="res://scripts/world/awakening_load_interlock.gd" id="21_interlock"]
+[ext_resource type="Script" path="res://scripts/world/awakening_beam_feedback.gd" id="22_beam_feedback"]
+
+[sub_resource type="Environment" id="Environment_chamber"]
+background_mode = 1
+background_color = Color(0.012, 0.016, 0.021, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.5, 0.51, 0.48, 1)
+ambient_light_energy = 0.53
+tonemap_mode = 2
+ssao_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="Material_door"]
+albedo_color = Color(0.095, 0.105, 0.11, 1)
+metallic = 0.72
+roughness = 0.39
+
+[sub_resource type="StandardMaterial3D" id="Material_warning"]
+albedo_color = Color(0.42, 0.18, 0.055, 1)
+metallic = 0.25
+roughness = 0.67
+
+[sub_resource type="StandardMaterial3D" id="Material_dark"]
+albedo_color = Color(0.09, 0.105, 0.12, 1)
+metallic = 0.46
+roughness = 0.72
+
+[sub_resource type="BoxMesh" id="Mesh_door"]
+material = SubResource("Material_door")
+size = Vector3(2.5, 2.8, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_door"]
+size = Vector3(2.5, 2.8, 0.3)
+
+[sub_resource type="BoxMesh" id="Mesh_warning_bar"]
+material = SubResource("Material_warning")
+size = Vector3(2.25, 0.1, 0.04)
+
+[sub_resource type="BoxMesh" id="Mesh_dark_unit"]
+material = SubResource("Material_dark")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_release_control"]
+size = Vector3(0.65, 0.52, 0.18)
+
+[sub_resource type="StandardMaterial3D" id="Material_release_button"]
+albedo_color = Color(0.25, 0.14, 0.1, 1)
+metallic = 0.38
+roughness = 0.62
+emission_enabled = true
+emission = Color(0.6, 0.28, 0.08, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="CylinderMesh" id="Mesh_release_bezel"]
+top_radius = 0.16
+bottom_radius = 0.16
+height = 0.035
+radial_segments = 24
+material = SubResource("Material_door")
+
+[sub_resource type="CylinderMesh" id="Mesh_release_button"]
+top_radius = 0.115
+bottom_radius = 0.115
+height = 0.06
+radial_segments = 24
+material = SubResource("Material_release_button")
+
+[sub_resource type="StandardMaterial3D" id="Material_inspection_lamp"]
+albedo_color = Color(0.72, 0.76, 0.7, 1)
+emission_enabled = true
+emission = Color(0.68, 0.75, 0.72, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="BoxMesh" id="Mesh_inspection_lamp"]
+material = SubResource("Material_inspection_lamp")
+size = Vector3(1.4, 0.08, 0.24)
+
+[sub_resource type="StandardMaterial3D" id="Material_instrument"]
+albedo_color = Color(0.055, 0.09, 0.09, 1)
+emission_enabled = true
+emission = Color(0.45, 0.68, 0.58, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="BoxMesh" id="Mesh_instrument"]
+material = SubResource("Material_instrument")
+size = Vector3(0.9, 0.035, 0.03)
+
+[sub_resource type="BoxMesh" id="Mesh_rotor"]
+material = SubResource("Material_warning")
+size = Vector3(1.2, 0.16, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="Material_world_cube"]
+albedo_color = Color(0.105, 0.145, 0.16, 1)
+metallic = 0.48
+roughness = 0.38
+
+[sub_resource type="StandardMaterial3D" id="Material_world_emitter"]
+albedo_color = Color(0.31, 0.46, 0.47, 1)
+emission_enabled = true
+emission = Color(0.18, 0.36, 0.39, 1)
+emission_energy_multiplier = 0.55
+
+[sub_resource type="StandardMaterial3D" id="Material_world_beam"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.36, 0.51, 0.52, 0.13)
+emission_enabled = true
+emission = Color(0.28, 0.43, 0.45, 1)
+emission_energy_multiplier = 0.3
+
+[node name="AwakeningChamber" type="Node3D"]
+script = ExtResource("9_chamber")
+
+[node name="OperationsAtrium" parent="." instance=ExtResource("17_hub")]
+position = Vector3(0, 0, 6)
+interlock_path = NodePath("../BulkheadLoadRelay")
+bulkhead_path = NodePath("../Shell/SealedBulkhead")
+bulkhead_detail_paths = Array[NodePath]([NodePath("../StoryDressing/IncidentDetails/DoorSplit"), NodePath("../StoryDressing/IncidentDetails/JammedBulkheadBrace")])
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_chamber")
+
+[node name="Shell" type="Node3D" parent="."]
+
+[node name="Floor" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(0, -0.1, 0)
+scale = Vector3(14, 0.2, 12)
+
+[node name="MeshInstance3D" parent="Shell/Floor" index="0"]
+material_override = ExtResource("13_floor")
+
+[node name="Ceiling" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(0, 4, 0)
+scale = Vector3(14, 0.2, 12)
+
+[node name="MeshInstance3D" parent="Shell/Ceiling" index="0"]
+material_override = ExtResource("15_metal")
+
+[node name="NorthWall" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(0, 1.9, -6)
+scale = Vector3(14, 3.8, 0.25)
+
+[node name="MeshInstance3D" parent="Shell/NorthWall" index="0"]
+material_override = ExtResource("14_wall")
+
+[node name="WestWall" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(-7, 1.9, 0)
+scale = Vector3(0.25, 3.8, 12)
+
+[node name="MeshInstance3D" parent="Shell/WestWall" index="0"]
+material_override = ExtResource("14_wall")
+
+[node name="EastWall" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(7, 1.9, 0)
+scale = Vector3(0.25, 3.8, 12)
+
+[node name="MeshInstance3D" parent="Shell/EastWall" index="0"]
+material_override = ExtResource("14_wall")
+
+[node name="SouthWallLeft" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(-4.15, 1.9, 6)
+scale = Vector3(5.7, 3.8, 0.25)
+
+[node name="MeshInstance3D" parent="Shell/SouthWallLeft" index="0"]
+material_override = ExtResource("14_wall")
+
+[node name="SouthWallRight" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(4.15, 1.9, 6)
+scale = Vector3(5.7, 3.8, 0.25)
+
+[node name="MeshInstance3D" parent="Shell/SouthWallRight" index="0"]
+material_override = ExtResource("14_wall")
+
+[node name="ExitFrame" parent="Shell" instance=ExtResource("5_frame")]
+position = Vector3(0, 0, 5.84)
+
+[node name="SealedBulkhead" type="StaticBody3D" parent="Shell"]
+position = Vector3(0, 1.4, 5.86)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Shell/SealedBulkhead"]
+mesh = SubResource("Mesh_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/SealedBulkhead"]
+shape = SubResource("Shape_door")
+
+[node name="WarningBarUpper" type="MeshInstance3D" parent="Shell/SealedBulkhead"]
+position = Vector3(0, 0.58, -0.17)
+rotation = Vector3(0, 0, -0.12)
+mesh = SubResource("Mesh_warning_bar")
+
+[node name="WarningBarLower" type="MeshInstance3D" parent="Shell/SealedBulkhead"]
+position = Vector3(0, -0.58, -0.17)
+rotation = Vector3(0, 0, 0.12)
+mesh = SubResource("Mesh_warning_bar")
+
+[node name="CeilingRibNorth" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(0, 3.78, -4)
+scale = Vector3(13.7, 0.22, 0.22)
+
+[node name="CeilingRibCenter" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(0, 3.78, 0)
+scale = Vector3(13.7, 0.22, 0.22)
+
+[node name="CeilingRibSouth" parent="Shell" instance=ExtResource("4_block")]
+position = Vector3(0, 3.78, 4)
+scale = Vector3(13.7, 0.22, 0.22)
+
+[node name="ObservationBooth" type="Node3D" parent="."]
+
+[node name="PartitionLower" parent="ObservationBooth" instance=ExtResource("4_block")]
+position = Vector3(2.4, 0.48, -3.55)
+scale = Vector3(0.25, 0.96, 4.55)
+
+[node name="PartitionUpper" parent="ObservationBooth" instance=ExtResource("4_block")]
+position = Vector3(2.4, 3.28, -3.55)
+scale = Vector3(0.25, 1.05, 4.55)
+
+[node name="WindowPostNorth" parent="ObservationBooth" instance=ExtResource("4_block")]
+position = Vector3(2.4, 1.9, -5.62)
+scale = Vector3(0.28, 1.75, 0.22)
+
+[node name="WindowPostSouth" parent="ObservationBooth" instance=ExtResource("4_block")]
+position = Vector3(2.4, 1.9, -1.48)
+scale = Vector3(0.28, 1.75, 0.22)
+
+[node name="BrokenWindowBar" type="MeshInstance3D" parent="ObservationBooth"]
+position = Vector3(2.25, 1.9, -4.62)
+rotation = Vector3(0, 0, -0.12)
+scale = Vector3(0.11, 2.25, 0.1)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="BoothConsole" parent="ObservationBooth" instance=ExtResource("6_console")]
+position = Vector3(5.55, 0, -4.88)
+rotation = Vector3(0, -1.5708, 0)
+
+[node name="FallenConsole" parent="ObservationBooth" instance=ExtResource("6_console")]
+position = Vector3(5.85, 0.72, -2.55)
+rotation = Vector3(0.28, 0.12, 1.39)
+
+[node name="DiagnosticRack" type="Node3D" parent="."]
+
+[node name="RackBody" parent="DiagnosticRack" instance=ExtResource("4_block")]
+position = Vector3(-2.55, 1.42, -2.75)
+scale = Vector3(0.72, 2.84, 3.5)
+
+[node name="MeshInstance3D" parent="DiagnosticRack/RackBody" index="0"]
+material_override = ExtResource("15_metal")
+
+[node name="RackFootNorth" parent="DiagnosticRack" instance=ExtResource("4_block")]
+position = Vector3(-2.55, 0.12, -4.28)
+scale = Vector3(1.2, 0.24, 0.28)
+
+[node name="RackFootSouth" parent="DiagnosticRack" instance=ExtResource("4_block")]
+position = Vector3(-2.55, 0.12, -1.18)
+scale = Vector3(1.2, 0.24, 0.28)
+
+[node name="LoosePanel" type="MeshInstance3D" parent="DiagnosticRack"]
+position = Vector3(-2.02, 1.65, -1.2)
+rotation = Vector3(0, 0.22, -0.13)
+scale = Vector3(0.08, 1.18, 0.72)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="ContainmentStation" type="Node3D" parent="."]
+
+[node name="ServiceControl" parent="Shell" instance=ExtResource("10_control")]
+position = Vector3(0.95, 1.38, -2.4)
+rotation = Vector3(1.5708, 0, 0)
+
+[node name="AwakeningLoadPlate" parent="." instance=ExtResource("20_plate")]
+position = Vector3(-4.82, 0, -3.72)
+target_path = NodePath("../QuantumCube")
+
+[node name="StabilizationBeam" parent="." instance=ExtResource("18_beam")]
+position = Vector3(-4.82, 2.15, -5.45)
+beam_length = 4.5
+beam_width = 0.72
+beam_height = 0.72
+player_path = NodePath("../Player")
+debug_output = false
+
+[node name="EmitterFace" parent="StabilizationBeam" index="1"]
+material_override = SubResource("Material_world_emitter")
+
+[node name="BeamVolume" parent="StabilizationBeam/EmitterOrigin" index="0"]
+material_override = SubResource("Material_world_beam")
+
+[node name="BeamVisualFeedback" parent="StabilizationBeam" index="4"]
+script = ExtResource("22_beam_feedback")
+
+[node name="BeamMount" type="MeshInstance3D" parent="."]
+position = Vector3(-4.82, 3.15, -5.45)
+scale = Vector3(0.24, 1.35, 0.24)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="BeamBreakerPedestal" parent="." instance=ExtResource("4_block")]
+position = Vector3(-5.85, 0.7, -4.85)
+scale = Vector3(0.55, 1.4, 0.5)
+
+[node name="MeshInstance3D" parent="BeamBreakerPedestal" index="0"]
+material_override = ExtResource("15_metal")
+
+[node name="BeamBreaker" parent="." instance=ExtResource("10_control")]
+position = Vector3(-5.85, 1.45, -4.52)
+rotation = Vector3(1.5708, 0, 0)
+script = ExtResource("19_breaker")
+beam_path = NodePath("../StabilizationBeam")
+
+[node name="BeamConduit" type="MeshInstance3D" parent="."]
+position = Vector3(-5.32, 2.95, -5.52)
+scale = Vector3(1.4, 0.09, 0.1)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="BulkheadLoadRelay" type="Node3D" parent="."]
+position = Vector3(1.95, 1.55, 5.68)
+script = ExtResource("21_interlock")
+plate_path = NodePath("../AwakeningLoadPlate")
+
+[node name="Housing" type="MeshInstance3D" parent="BulkheadLoadRelay"]
+scale = Vector3(0.7, 0.6, 0.14)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="Dial" type="MeshInstance3D" parent="BulkheadLoadRelay"]
+position = Vector3(-0.18, 0.2, -0.08)
+scale = Vector3(0.23, 0.14, 0.02)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="RelayNeedle" type="Node3D" parent="BulkheadLoadRelay"]
+position = Vector3(-0.18, 0.17, -0.1)
+
+[node name="NeedleMesh" type="MeshInstance3D" parent="BulkheadLoadRelay/RelayNeedle"]
+position = Vector3(0, 0.055, 0)
+scale = Vector3(0.012, 0.11, 0.012)
+mesh = SubResource("Mesh_dark_unit")
+material_override = SubResource("Material_warning")
+
+[node name="Indicator" type="MeshInstance3D" parent="BulkheadLoadRelay"]
+position = Vector3(0.19, 0.2, -0.09)
+scale = Vector3(0.1, 0.055, 0.025)
+mesh = SubResource("Mesh_dark_unit")
+material_override = SubResource("Material_instrument")
+
+[node name="ButtonBezel" type="MeshInstance3D" parent="BulkheadLoadRelay"]
+position = Vector3(0, -0.07, -0.115)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("Mesh_release_bezel")
+
+[node name="ReleaseButton" type="MeshInstance3D" parent="BulkheadLoadRelay"]
+position = Vector3(0, -0.07, -0.155)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("Mesh_release_button")
+
+[node name="GuardLeft" type="MeshInstance3D" parent="BulkheadLoadRelay"]
+position = Vector3(-0.26, -0.07, -0.12)
+scale = Vector3(0.045, 0.27, 0.07)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="GuardRight" type="MeshInstance3D" parent="BulkheadLoadRelay"]
+position = Vector3(0.26, -0.07, -0.12)
+scale = Vector3(0.045, 0.27, 0.07)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="BulkheadReleaseConduit" type="MeshInstance3D" parent="."]
+position = Vector3(1.45, 1.55, 5.73)
+scale = Vector3(0.62, 0.045, 0.045)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="InteractionBody" type="StaticBody3D" parent="BulkheadLoadRelay"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BulkheadLoadRelay/InteractionBody"]
+position = Vector3(0, 0, -0.08)
+shape = SubResource("Shape_release_control")
+
+[node name="Plinth" parent="ContainmentStation" instance=ExtResource("4_block")]
+position = Vector3(0, -0.06, 0.65)
+scale = Vector3(1.85, 0.12, 1.85)
+
+[node name="MeshInstance3D" parent="ContainmentStation/Plinth" index="0"]
+material_override = ExtResource("15_metal")
+
+[node name="ClampLeft" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(-0.78, 0.4, 0.65)
+scale = Vector3(0.11, 0.8, 0.28)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="ClampRight" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(0.78, 0.4, 0.65)
+scale = Vector3(0.11, 0.8, 0.28)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="ServiceWestPanel" parent="ContainmentStation" instance=ExtResource("4_block")]
+position = Vector3(-0.92, 0.76, -0.75)
+rotation = Vector3(0, 0, -0.04)
+scale = Vector3(0.12, 1.52, 3.4)
+
+[node name="ServiceEastPanel" parent="ContainmentStation" instance=ExtResource("4_block")]
+position = Vector3(1.35, 0.76, -0.75)
+rotation = Vector3(0, 0, 0.12)
+scale = Vector3(0.12, 1.52, 3.4)
+
+[node name="ServiceRearPanel" parent="ContainmentStation" instance=ExtResource("4_block")]
+position = Vector3(0.17, 1.05, -2.51)
+scale = Vector3(2.3, 2.1, 0.12)
+
+[node name="ServiceBaffle" parent="ContainmentStation" instance=ExtResource("4_block")]
+position = Vector3(0.77, 1.05, -0.9)
+rotation = Vector3(0, -0.12, 0.16)
+scale = Vector3(0.88, 2.1, 0.12)
+
+[node name="BentRackShelfUpper" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(-0.67, 1.2, -0.75)
+rotation = Vector3(0, -0.06, -0.1)
+scale = Vector3(0.64, 0.08, 3.1)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="BentRackShelfLower" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(1.06, 0.62, -0.75)
+rotation = Vector3(0, 0.1, 0.14)
+scale = Vector3(0.48, 0.08, 3.0)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="RackUprightWestFront" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(-0.94, 1.07, 0.86)
+rotation = Vector3(0, 0, -0.08)
+scale = Vector3(0.18, 2.14, 0.18)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="RackUprightWestRear" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(-0.93, 1.05, -2.36)
+rotation = Vector3(0, 0, 0.11)
+scale = Vector3(0.18, 2.1, 0.18)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="RackUprightEastFront" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(1.34, 0.97, 0.82)
+rotation = Vector3(0, 0, 0.18)
+scale = Vector3(0.18, 1.94, 0.18)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="RackUprightEastRear" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(1.35, 0.9, -2.36)
+rotation = Vector3(0, 0, -0.11)
+scale = Vector3(0.18, 1.8, 0.18)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="DisplacedRackFrame" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(-0.37, 0.3, -0.93)
+rotation = Vector3(0, 0.38, 0.22)
+scale = Vector3(0.07, 0.6, 2.1)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="SpilledInstrumentCase" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(-0.53, 1.42, -1.42)
+rotation = Vector3(0.15, 0.27, -0.1)
+scale = Vector3(0.37, 0.32, 0.58)
+mesh = SubResource("Mesh_dark_unit")
+material_override = ExtResource("15_metal")
+
+[node name="AbandonedRackTray" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(1.04, 0.88, -1.84)
+rotation = Vector3(0.12, -0.22, 0.16)
+scale = Vector3(0.39, 0.2, 0.55)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="UtilityChase" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(0.18, 2.25, -4.1)
+scale = Vector3(1.15, 0.3, 3.2)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="FloorConduitWest" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(-1.45, 0.035, 1.15)
+rotation = Vector3(0, -0.42, 0)
+scale = Vector3(2.25, 0.05, 0.1)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="FloorConduitEast" type="MeshInstance3D" parent="ContainmentStation"]
+position = Vector3(1.55, 0.035, 1.12)
+rotation = Vector3(0, 0.36, 0)
+scale = Vector3(2.4, 0.05, 0.1)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="StoryDressing" type="Node3D" parent="."]
+
+[node name="WestConsole" parent="StoryDressing" instance=ExtResource("6_console")]
+position = Vector3(-5.7, 0, 1.2)
+rotation = Vector3(0, 1.5708, 0)
+
+[node name="SupplyCrateA" parent="StoryDressing" instance=ExtResource("7_crate")]
+position = Vector3(-5.55, 0.425, 4.65)
+rotation = Vector3(0, 0.18, 0)
+
+[node name="SupplyCrateB" parent="StoryDressing" instance=ExtResource("7_crate")]
+position = Vector3(-4.6, 0.43, 5.0)
+rotation = Vector3(0.08, -0.25, 0.18)
+scale = Vector3(0.75, 0.75, 0.75)
+
+[node name="GurneyDeck" parent="StoryDressing" instance=ExtResource("4_block")]
+position = Vector3(4.85, 0.62, 3.55)
+scale = Vector3(2.75, 0.16, 1.1)
+
+[node name="GurneyLegNorth" parent="StoryDressing" instance=ExtResource("4_block")]
+position = Vector3(4.85, 0.3, 3.1)
+scale = Vector3(1.75, 0.62, 0.1)
+
+[node name="GurneyLegSouth" parent="StoryDressing" instance=ExtResource("4_block")]
+position = Vector3(4.85, 0.3, 4.0)
+scale = Vector3(1.75, 0.62, 0.1)
+
+[node name="IncidentDetails" parent="StoryDressing" instance=ExtResource("11_dressing")]
+
+[node name="Workspaces" parent="StoryDressing" instance=ExtResource("12_workspaces")]
+
+[node name="Infrastructure" type="Node3D" parent="."]
+
+[node name="Ventilation" type="Node3D" parent="Infrastructure"]
+position = Vector3(0, 2.8, -5.72)
+
+[node name="Rotor" type="Node3D" parent="Infrastructure/Ventilation"]
+
+[node name="BladeA" type="MeshInstance3D" parent="Infrastructure/Ventilation/Rotor"]
+mesh = SubResource("Mesh_rotor")
+
+[node name="BladeB" type="MeshInstance3D" parent="Infrastructure/Ventilation/Rotor"]
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("Mesh_rotor")
+
+[node name="LiveInstrumentFaces" type="Node3D" parent="Infrastructure"]
+
+[node name="WorkstationSupply" type="MeshInstance3D" parent="Infrastructure/LiveInstrumentFaces"]
+position = Vector3(5.15, 0.96, -4.88)
+rotation = Vector3(0, -1.5708, 0)
+mesh = SubResource("Mesh_instrument")
+
+[node name="CirculationSupply" type="MeshInstance3D" parent="Infrastructure/LiveInstrumentFaces"]
+position = Vector3(-0.28, 2.01, -5.55)
+mesh = SubResource("Mesh_instrument")
+
+[node name="ServiceSupply" type="MeshInstance3D" parent="Infrastructure/LiveInstrumentFaces"]
+position = Vector3(0, 0.17, 1.59)
+mesh = SubResource("Mesh_instrument")
+
+[node name="BoothFixture" type="MeshInstance3D" parent="Infrastructure/LiveInstrumentFaces"]
+position = Vector3(4.7, 3.758, -2.8)
+scale = Vector3(1.8, 1, 7)
+mesh = SubResource("Mesh_instrument")
+
+[node name="WestFixture" type="MeshInstance3D" parent="Infrastructure/LiveInstrumentFaces"]
+position = Vector3(-4.7, 3.758, -2.8)
+scale = Vector3(1.8, 1, 7)
+mesh = SubResource("Mesh_instrument")
+
+[node name="SouthFixture" type="MeshInstance3D" parent="Infrastructure/LiveInstrumentFaces"]
+position = Vector3(0, 3.758, 3.5)
+scale = Vector3(1.8, 1, 7)
+mesh = SubResource("Mesh_instrument")
+
+[node name="ControlStationSupply" type="MeshInstance3D" parent="Infrastructure/LiveInstrumentFaces"]
+position = Vector3(-3.1, 1.84, 5.625)
+scale = Vector3(1.6, 1, 1)
+mesh = SubResource("Mesh_instrument")
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="EmergencyNorth" parent="Lighting" instance=ExtResource("8_light")]
+position = Vector3(-4.8, 3.45, -5.72)
+rotation = Vector3(-1.5708, 0, 0)
+
+[node name="EmergencySouth" parent="Lighting" instance=ExtResource("8_light")]
+position = Vector3(4.75, 3.45, 5.72)
+rotation = Vector3(1.5708, 0, 3.14159)
+
+[node name="BulkheadServiceGlow" type="OmniLight3D" parent="Lighting"]
+position = Vector3(1.95, 2.18, 5.05)
+light_color = Color(0.68, 0.56, 0.4, 1)
+light_energy = 0.45
+omni_range = 2.45
+
+[node name="ContainmentLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(0, 2.55, 0.65)
+light_color = Color(0.74, 0.8, 0.78, 1)
+light_energy = 2.6
+shadow_enabled = true
+omni_range = 5.8
+
+[node name="InspectionFixture" type="MeshInstance3D" parent="Lighting"]
+position = Vector3(0, 3.76, 1.35)
+mesh = SubResource("Mesh_inspection_lamp")
+
+[node name="InspectionSpot" type="SpotLight3D" parent="Lighting"]
+position = Vector3(0, 3.62, 2.15)
+rotation = Vector3(-1.22, 0, 0)
+light_color = Color(0.74, 0.8, 0.78, 1)
+light_energy = 5.2
+shadow_enabled = true
+spot_range = 6.0
+spot_angle = 42.0
+
+[node name="RelocationSensorLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(1.21, 0.7, -0.12)
+light_color = Color(0.74, 0.46, 0.18, 1)
+light_energy = 0.0
+omni_range = 1.35
+
+[node name="BoothLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(5.25, 2.6, -3.7)
+light_color = Color(0.57, 0.65, 0.64, 1)
+light_energy = 2.0
+omni_range = 4.1
+
+[node name="WestBayLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-5, 2.4, -2.2)
+light_color = Color(0.8, 0.61, 0.38, 1)
+light_energy = 1.5
+omni_range = 4.0
+shadow_enabled = true
+
+[node name="ControlTaskLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-3.1, 2.58, 5.2)
+light_color = Color(0.85, 0.72, 0.54, 1)
+light_energy = 1.5
+omni_range = 3.4
+shadow_enabled = true
+
+[node name="ServiceWorkLampHousing" type="MeshInstance3D" parent="Lighting"]
+position = Vector3(-0.3, 2.16, -1.75)
+scale = Vector3(0.58, 0.07, 0.22)
+mesh = SubResource("Mesh_dark_unit")
+
+[node name="ServiceWorkLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-0.3, 2.06, -1.75)
+light_color = Color(0.76, 0.77, 0.68, 1)
+light_energy = 3.0
+omni_range = 2.4
+shadow_enabled = false
+
+[node name="RestoredWorkLights" type="Node3D" parent="Lighting"]
+
+[node name="Booth" type="OmniLight3D" parent="Lighting/RestoredWorkLights"]
+position = Vector3(4.7, 3.5, -2.8)
+light_color = Color(0.88, 0.91, 0.78, 1)
+light_energy = 0.0
+omni_range = 7.0
+shadow_enabled = true
+
+[node name="ServiceBay" type="OmniLight3D" parent="Lighting/RestoredWorkLights"]
+position = Vector3(-4.7, 3.5, -2.8)
+light_color = Color(0.88, 0.91, 0.78, 1)
+light_energy = 0.0
+omni_range = 7.0
+shadow_enabled = true
+
+[node name="Chamber" type="OmniLight3D" parent="Lighting/RestoredWorkLights"]
+position = Vector3(0, 3.4, 3.5)
+light_color = Color(0.88, 0.91, 0.78, 1)
+light_energy = 0.0
+omni_range = 8.0
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector3(0.72, 1, 4.35)
+rotation = Vector3(0, 0.18, 0)
+
+[node name="ObservationManager" type="Node" parent="."]
+script = ExtResource("2_observation")
+primary_camera_path = NodePath("../Player/Head/Camera3D")
+
+[node name="CubeDestinations" type="Node3D" parent="."]
+
+[node name="ContainmentPlinth" type="Marker3D" parent="CubeDestinations"]
+position = Vector3(0, 0.65, 0.65)
+
+[node name="WestEquipmentBay" type="Marker3D" parent="CubeDestinations"]
+position = Vector3(-4.82, 0.56, -3.72)
+
+[node name="ObservationBooth" type="Marker3D" parent="CubeDestinations"]
+position = Vector3(4.75, 0.5, -3.55)
+
+[node name="AbandonedGurney" type="Marker3D" parent="CubeDestinations"]
+position = Vector3(4.82, 1.285, 3.55)
+
+[node name="QuantumCube" parent="." instance=ExtResource("3_cube")]
+observation_manager_path = NodePath("../ObservationManager")
+destination_paths = Array[NodePath]([NodePath("../CubeDestinations/ContainmentPlinth"), NodePath("../CubeDestinations/WestEquipmentBay"), NodePath("../CubeDestinations/ObservationBooth"), NodePath("../CubeDestinations/AbandonedGurney")])
+starting_destination_index = 0
+minimum_move_distance = 3.0
+avoid_immediate_return = true
+debug_output = false
+
+[node name="MeshInstance3D" parent="QuantumCube" index="3"]
+material_override = SubResource("Material_world_cube")
+
+[node name="RelocationEnvironmentFeedback" type="Node3D" parent="."]
+script = ExtResource("16_relocation_feedback")
+needle_path = NodePath("../StoryDressing/Workspaces/Containment/TransducerNeedle")
+instrument_face_path = NodePath("../StoryDressing/Workspaces/Containment/SampleInstrumentFace")
+indicator_light_path = NodePath("../Lighting/RelocationSensorLight")

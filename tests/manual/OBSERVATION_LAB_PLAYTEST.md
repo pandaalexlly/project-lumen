@@ -3,14 +3,15 @@
 ## A. Developer smoke test
 
 - Launch the project and confirm the Player spawns in Discovery facing the Cube area.
-- Observe the Discovery Cube, break line of sight for at least 2.5 seconds, and confirm it relocates around the single pillar.
+- Observe the Discovery Cube, briefly break and restore line of sight, then conceal it for roughly half a second and confirm it relocates around the single pillar.
 - Observe Door A, deliberately hide it, and confirm it relocates to Door B.
 - Enter the dogleg, observe Door B, deliberately break observation, and enter Application after it returns to A.
 - Confirm the Application Cube uses five visibly irregular positions and cannot reach the Plate on its first or second relocation.
 - Continue valid observation cycles and confirm the Cube reaches the Plate on its third or fourth successful relocation.
 - Confirm the PressurePlate opens the final SimpleDoor.
-- Walk through the final doorway into the exit space and confirm the completion overlay appears.
-- Press `R` and confirm the entire session resets.
+- Before exiting, press `R` and confirm Observation Lab restarts locally.
+- Solve again, walk through the final doorway, and confirm Stabilization Lab
+  Discovery loads without an intermediate completion overlay.
 - Move the Player below the level and confirm fall recovery reloads the session.
 
 ## B. Blind playtest

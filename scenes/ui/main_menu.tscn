@@ -1,0 +1,147 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_menu"]
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.035, 0.065, 0.09, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05, 0.62, 0.78, 0.75)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.035, 0.22, 0.29, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12, 0.75, 0.92, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="Style_button_hover"]
+bg_color = Color(0.055, 0.38, 0.46, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.9, 1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.018, 0.027, 0.043, 1)
+
+[node name="FacilityBand" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 108.0
+offset_bottom = 114.0
+grow_horizontal = 2
+color = Color(0.02, 0.55, 0.72, 0.65)
+
+[node name="FacilityBandLower" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -84.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.1, 0.3, 0.4, 0.55)
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -170.0
+offset_right = 270.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Panel" type="PanelContainer" parent="Layout"]
+custom_minimum_size = Vector2(540, 190)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="TitleLayout" type="VBoxContainer" parent="Layout/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Project" type="Label" parent="Layout/Panel/TitleLayout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "ANOMALOUS RESEARCH FACILITY"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Layout/Panel/TitleLayout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 48
+text = "PROJECT LUMEN"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Layout/Panel/TitleLayout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.62, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+text = "OBSERVATION NETWORK / CALIBRATION SEQUENCE"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="Layout"]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_neighbor_top = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+theme_override_colors/font_color = Color(0.9, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "BEGIN CALIBRATION"
+
+[node name="Controls" type="Label" parent="Layout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.54, 0.61, 1)
+theme_override_font_sizes/font_size = 14
+text = "WASD  MOVE    /    MOUSE  LOOK    /    E  INTERACT    /    R  RESTART"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Layout/StartButton" to="." method="_on_start_pressed"]

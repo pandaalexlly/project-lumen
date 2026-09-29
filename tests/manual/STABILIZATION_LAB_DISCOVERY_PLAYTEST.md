@@ -17,8 +17,9 @@ press `E` to interact and `R` to restart.
   does not move the Cube.
 - Turn away for about three seconds and confirm the Cube relocates from A to B.
 - Confirm the PressurePlate activates and opens the SimpleDoor.
-- Walk through the exit, confirm the completion overlay, and press `R` to
-  restart the room.
+- Before exiting, press `R` and confirm the Discovery room restarts locally.
+- Solve again, walk through the exit, and confirm Stabilization Lab Destination
+  loads without an intermediate completion overlay.
 
 ## Blind test
 

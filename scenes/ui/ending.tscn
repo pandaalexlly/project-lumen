@@ -1,0 +1,128 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/ending.gd" id="1_ending"]
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.025, 0.065, 0.075, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.08, 0.8, 0.48, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.035, 0.22, 0.29, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12, 0.75, 0.92, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="Style_button_hover"]
+bg_color = Color(0.055, 0.38, 0.46, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.9, 1, 1)
+
+[node name="Ending" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ending")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.012, 0.026, 0.035, 1)
+
+[node name="SignalBand" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 110.0
+offset_bottom = 116.0
+grow_horizontal = 2
+color = Color(0.04, 0.72, 0.42, 0.72)
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -205.0
+offset_right = 300.0
+offset_bottom = 205.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Panel" type="PanelContainer" parent="Layout"]
+custom_minimum_size = Vector2(600, 235)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="Message" type="VBoxContainer" parent="Layout/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 13
+alignment = 1
+
+[node name="Title" type="Label" parent="Layout/Panel/Message"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 1, 0.93, 1)
+theme_override_font_sizes/font_size = 42
+text = "PROJECT LUMEN"
+horizontal_alignment = 1
+
+[node name="Restored" type="Label" parent="Layout/Panel/Message"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.95, 0.56, 1)
+theme_override_font_sizes/font_size = 23
+text = "OBSERVATION NETWORK RESTORED"
+horizontal_alignment = 1
+
+[node name="Complete" type="Label" parent="Layout/Panel/Message"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.68, 0.72, 1)
+theme_override_font_sizes/font_size = 17
+text = "Prototype sequence complete."
+horizontal_alignment = 1
+
+[node name="RevisitButton" type="Button" parent="Layout"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "REVISIT FIELD SITE"
+
+[node name="MenuButton" type="Button" parent="Layout"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+theme_override_styles/focus = SubResource("Style_button_hover")
+text = "RETURN TO MAIN MENU"
+
+[connection signal="pressed" from="Layout/RevisitButton" to="." method="_on_revisit_pressed"]
+[connection signal="pressed" from="Layout/MenuButton" to="." method="_on_menu_pressed"]

@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Housing"]
+albedo_color = Color(0.36, 0.38, 0.35, 1)
+metallic = 0.6
+roughness = 0.55
+
+[sub_resource type="StandardMaterial3D" id="Lens"]
+albedo_color = Color(0.012, 0.018, 0.022, 1)
+metallic = 0.5
+roughness = 0.16
+
+[sub_resource type="BoxMesh" id="Body"]
+material = SubResource("Housing")
+size = Vector3(0.34, 0.28, 0.55)
+
+[sub_resource type="CylinderMesh" id="Glass"]
+material = SubResource("Lens")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.08
+
+[sub_resource type="BoxMesh" id="Mount"]
+material = SubResource("Housing")
+size = Vector3(0.09, 0.65, 0.1)
+
+[node name="InspectionCamera" type="Node3D"]
+
+[node name="Housing" type="MeshInstance3D" parent="."]
+mesh = SubResource("Body")
+
+[node name="Lens" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, -0.3)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("Glass")
+
+[node name="Bracket" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.34, 0.15)
+mesh = SubResource("Mount")

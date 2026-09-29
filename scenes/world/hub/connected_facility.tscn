@@ -1,0 +1,723 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Material" path="res://scenes/world/environment/materials/floor_composite.tres" id="floor"]
+[ext_resource type="Material" path="res://scenes/world/environment/materials/wall_finish.tres" id="wall"]
+[ext_resource type="Material" path="res://scenes/world/environment/materials/painted_alloy.tres" id="alloy"]
+[ext_resource type="PackedScene" path="res://scenes/world/hub/fixed_receiver.tscn" id="receiver"]
+[ext_resource type="PackedScene" path="res://scenes/observation/coherent_assembly.tscn" id="assembly"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/stabilization_beam.tscn" id="beam"]
+[ext_resource type="PackedScene" path="res://scenes/prototype/stabilization_beam_switch.tscn" id="switch"]
+[ext_resource type="Script" path="res://scripts/world/connected_assembly_installation.gd" id="installation"]
+
+[sub_resource type="BoxMesh" id="box"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="shape"]
+size = Vector3(1, 1, 1)
+
+[node name="ConnectedFacility" type="Node3D"]
+script = ExtResource("installation")
+
+[node name="ApproachContinuations" type="Node3D" parent="."]
+
+[node name="WalkingFloors" type="Node3D" parent="."]
+
+[node name="ApronRoof" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(0, 5.4, 36.4)
+scale = Vector3(44.2, 0.25, 12.8)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/ApronRoof"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/ApronRoof"]
+shape = SubResource("shape")
+
+[node name="Survey" type="Node3D" parent="."]
+
+[node name="Exterior" type="Node3D" parent="."]
+
+[node name="Inspection" type="Node3D" parent="."]
+
+[node name="ObserverReservations" type="Node3D" parent="."]
+
+[node name="EmptyBedEgress" type="Node3D" parent="."]
+
+[node name="RecordsElbow" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(-20, -0.12, 10)
+scale = Vector3(4.2, 0.24, 4.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/RecordsElbow"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/RecordsElbow"]
+shape = SubResource("shape")
+
+[node name="RecordsLong" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(-20, -0.12, 21.1)
+scale = Vector3(4.2, 0.24, 18.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/RecordsLong"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/RecordsLong"]
+shape = SubResource("shape")
+
+[node name="PowerElbow" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(20, -0.12, 10)
+scale = Vector3(4.2, 0.24, 4.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/PowerElbow"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/PowerElbow"]
+shape = SubResource("shape")
+
+[node name="PowerLong" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(20, -0.12, 21.1)
+scale = Vector3(4.2, 0.24, 18.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/PowerLong"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/PowerLong"]
+shape = SubResource("shape")
+
+[node name="ContainmentFixedWorkRecess" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(-11.1, -0.12, 28.6)
+scale = Vector3(5.8, 0.24, 3.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/ContainmentFixedWorkRecess"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/ContainmentFixedWorkRecess"]
+shape = SubResource("shape")
+
+[node name="RecordsOuterWall" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(-22.2, 1.9, 20.9)
+scale = Vector3(0.2, 3.8, 17.8)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/RecordsOuterWall"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/RecordsOuterWall"]
+shape = SubResource("shape")
+
+[node name="RecordsInnerWall" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(-17.85, 1.9, 20.3)
+scale = Vector3(0.2, 3.8, 16.6)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/RecordsInnerWall"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/RecordsInnerWall"]
+shape = SubResource("shape")
+
+[node name="RecordsElbowEnd" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(-20, 1.9, 7.9)
+scale = Vector3(4.2, 3.8, 0.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/RecordsElbowEnd"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/RecordsElbowEnd"]
+shape = SubResource("shape")
+
+[node name="RecordsElbowRoof" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(-20, 3.9, 10)
+scale = Vector3(4.2, 0.2, 4.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/RecordsElbowRoof"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/RecordsElbowRoof"]
+shape = SubResource("shape")
+
+[node name="RecordsLongRoof" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(-20, 3.9, 21.1)
+scale = Vector3(4.2, 0.2, 18.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/RecordsLongRoof"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/RecordsLongRoof"]
+shape = SubResource("shape")
+
+[node name="PowerOuterWall" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(22.2, 1.9, 20.9)
+scale = Vector3(0.2, 3.8, 17.8)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/PowerOuterWall"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/PowerOuterWall"]
+shape = SubResource("shape")
+
+[node name="PowerInnerWall" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(17.85, 1.9, 20.3)
+scale = Vector3(0.2, 3.8, 16.6)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/PowerInnerWall"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/PowerInnerWall"]
+shape = SubResource("shape")
+
+[node name="PowerElbowEnd" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(20, 1.9, 7.9)
+scale = Vector3(4.2, 3.8, 0.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/PowerElbowEnd"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/PowerElbowEnd"]
+shape = SubResource("shape")
+
+[node name="PowerElbowRoof" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(20, 3.9, 10)
+scale = Vector3(4.2, 0.2, 4.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/PowerElbowRoof"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/PowerElbowRoof"]
+shape = SubResource("shape")
+
+[node name="PowerLongRoof" type="StaticBody3D" parent="ApproachContinuations"]
+position = Vector3(20, 3.9, 21.1)
+scale = Vector3(4.2, 0.2, 18.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachContinuations/PowerLongRoof"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="ApproachContinuations/PowerLongRoof"]
+shape = SubResource("shape")
+
+[node name="SharedApron" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(0, -0.12, 31.6)
+scale = Vector3(44.2, 0.24, 3.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/SharedApron"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/SharedApron"]
+shape = SubResource("shape")
+
+[node name="FrontWest" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(-14.45, -0.12, 34.525)
+scale = Vector3(15.3, 0.24, 2.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/FrontWest"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/FrontWest"]
+shape = SubResource("shape")
+
+[node name="FrontMiddle" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(0, -0.12, 34.525)
+scale = Vector3(10.4, 0.24, 2.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/FrontMiddle"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/FrontMiddle"]
+shape = SubResource("shape")
+
+[node name="FrontEast" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(14.45, -0.12, 34.525)
+scale = Vector3(15.3, 0.24, 2.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/FrontEast"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/FrontEast"]
+shape = SubResource("shape")
+
+[node name="A_WestWalk" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(-15.075, -0.12, 39.325)
+scale = Vector3(14.05, 0.24, 6.95)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/A_WestWalk"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/A_WestWalk"]
+shape = SubResource("shape")
+
+[node name="MiddleWalk" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(0, -0.12, 39.325)
+scale = Vector3(7.9, 0.24, 6.95)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/MiddleWalk"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/MiddleWalk"]
+shape = SubResource("shape")
+
+[node name="B_EastWalk" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(15.075, -0.12, 39.325)
+scale = Vector3(14.05, 0.24, 6.95)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/B_EastWalk"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/B_EastWalk"]
+shape = SubResource("shape")
+
+[node name="FixedPier" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(0, 1.7, 38.5)
+scale = Vector3(1, 3.4, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/FixedPier"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/FixedPier"]
+shape = SubResource("shape")
+
+[node name="PierFoot" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(0, 0.15, 38.5)
+scale = Vector3(1.5, 0.3, 1.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/PierFoot"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/PierFoot"]
+shape = SubResource("shape")
+
+[node name="PierTop" type="StaticBody3D" parent="WalkingFloors"]
+position = Vector3(0, 3.5, 38.5)
+scale = Vector3(1.3, 0.2, 5.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="WalkingFloors/PierTop"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="WalkingFloors/PierTop"]
+shape = SubResource("shape")
+
+[node name="BoundaryWest" type="StaticBody3D" parent="Survey"]
+position = Vector3(-13.55, 2, 43)
+scale = Vector3(17.1, 4, 0.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Survey/BoundaryWest"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Survey/BoundaryWest"]
+shape = SubResource("shape")
+
+[node name="BoundaryEast" type="StaticBody3D" parent="Survey"]
+position = Vector3(9.7, 2, 43)
+scale = Vector3(24.6, 4, 0.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Survey/BoundaryEast"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Survey/BoundaryEast"]
+shape = SubResource("shape")
+
+[node name="SurveySill" type="StaticBody3D" parent="Survey"]
+position = Vector3(-3.8, 0.575, 43)
+scale = Vector3(2.4, 1.15, 0.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Survey/SurveySill"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="Survey/SurveySill"]
+shape = SubResource("shape")
+
+[node name="ApertureHeader" type="StaticBody3D" parent="Survey"]
+position = Vector3(-3.8, 3.55, 43)
+scale = Vector3(2.4, 0.9, 0.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Survey/ApertureHeader"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="Survey/ApertureHeader"]
+shape = SubResource("shape")
+
+[node name="SillCap" type="StaticBody3D" parent="Survey"]
+position = Vector3(-3.8, 1.15, 42.82)
+scale = Vector3(2.4, 0.08, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Survey/SillCap"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="Survey/SillCap"]
+shape = SubResource("shape")
+
+[node name="ExteriorWest" type="StaticBody3D" parent="Exterior"]
+position = Vector3(-16.4, -0.12, 53)
+scale = Vector3(11.4, 0.24, 14)
+
+[node name="Mesh" type="MeshInstance3D" parent="Exterior/ExteriorWest"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="Exterior/ExteriorWest"]
+shape = SubResource("shape")
+
+[node name="ExteriorLandingSouth" type="StaticBody3D" parent="Exterior"]
+position = Vector3(-9.425, -0.12, 47.15)
+scale = Vector3(2.75, 0.24, 2.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Exterior/ExteriorLandingSouth"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="Exterior/ExteriorLandingSouth"]
+shape = SubResource("shape")
+
+[node name="ExteriorLandingNorth" type="StaticBody3D" parent="Exterior"]
+position = Vector3(-9.425, -0.12, 54.85)
+scale = Vector3(2.75, 0.24, 10.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Exterior/ExteriorLandingNorth"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="Exterior/ExteriorLandingNorth"]
+shape = SubResource("shape")
+
+[node name="OutsideButtress" type="StaticBody3D" parent="Exterior"]
+position = Vector3(-10, 1.8, 54)
+scale = Vector3(1.2, 3.6, 1.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Exterior/OutsideButtress"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Exterior/OutsideButtress"]
+shape = SubResource("shape")
+
+[node name="YardEdge" type="StaticBody3D" parent="Exterior"]
+position = Vector3(-22.2, 0.55, 52)
+scale = Vector3(0.2, 1.1, 12)
+
+[node name="Mesh" type="MeshInstance3D" parent="Exterior/YardEdge"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Exterior/YardEdge"]
+shape = SubResource("shape")
+
+[node name="YardRetainingWall" type="StaticBody3D" parent="Exterior"]
+position = Vector3(-16.4, 1.45, 60.2)
+scale = Vector3(11.4, 2.9, 0.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Exterior/YardRetainingWall"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Exterior/YardRetainingWall"]
+shape = SubResource("shape")
+
+[node name="DScreenLow" type="StaticBody3D" parent="Inspection"]
+position = Vector3(-8.6, 0.9, 37.5)
+scale = Vector3(0.2, 1.8, 6.6)
+
+[node name="Mesh" type="MeshInstance3D" parent="Inspection/DScreenLow"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Inspection/DScreenLow"]
+shape = SubResource("shape")
+
+[node name="DScreenHigh" type="StaticBody3D" parent="Inspection"]
+position = Vector3(-8.6, 3.025, 37.5)
+scale = Vector3(0.2, 0.75, 6.6)
+
+[node name="Mesh" type="MeshInstance3D" parent="Inspection/DScreenHigh"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Inspection/DScreenHigh"]
+shape = SubResource("shape")
+
+[node name="DScreenSouth" type="StaticBody3D" parent="Inspection"]
+position = Vector3(-8.6, 2.225, 34.8)
+scale = Vector3(0.2, 0.85, 1.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Inspection/DScreenSouth"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Inspection/DScreenSouth"]
+shape = SubResource("shape")
+
+[node name="DScreenNorth" type="StaticBody3D" parent="Inspection"]
+position = Vector3(-8.6, 2.225, 38.55)
+scale = Vector3(0.2, 0.85, 4.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Inspection/DScreenNorth"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="Inspection/DScreenNorth"]
+shape = SubResource("shape")
+
+[node name="RecordsBench" type="StaticBody3D" parent="Inspection"]
+position = Vector3(-13, 0.5, 36.8)
+scale = Vector3(1.7, 1, 0.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="Inspection/RecordsBench"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="Inspection/RecordsBench"]
+shape = SubResource("shape")
+
+[node name="BFixedServiceColumn" type="StaticBody3D" parent="Inspection"]
+position = Vector3(12.9, 1.8, 38.5)
+scale = Vector3(0.35, 3.6, 0.35)
+
+[node name="Mesh" type="MeshInstance3D" parent="Inspection/BFixedServiceColumn"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="Inspection/BFixedServiceColumn"]
+shape = SubResource("shape")
+
+[node name="ISourceMast" type="StaticBody3D" parent="ObserverReservations"]
+position = Vector3(-1.394, 1.075, 33.46)
+scale = Vector3(0.25, 2.15, 0.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="ObserverReservations/ISourceMast"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="ObserverReservations/ISourceMast"]
+shape = SubResource("shape")
+
+[node name="RSourceMast" type="StaticBody3D" parent="ObserverReservations"]
+position = Vector3(11.155, 1.075, 33.691)
+scale = Vector3(0.25, 2.15, 0.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="ObserverReservations/RSourceMast"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="ObserverReservations/RSourceMast"]
+shape = SubResource("shape")
+
+[node name="AFrontRamp" type="StaticBody3D" parent="EmptyBedEgress"]
+position = Vector3(-6, -0.34, 34.2)
+scale = Vector3(1.6, 0.14, 2.074)
+rotation_degrees = Vector3(15.38, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="EmptyBedEgress/AFrontRamp"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="EmptyBedEgress/AFrontRamp"]
+shape = SubResource("shape")
+
+[node name="ALowExtension" type="StaticBody3D" parent="EmptyBedEgress"]
+position = Vector3(-6, -0.68, 35.525)
+scale = Vector3(1.6, 0.26, 0.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="EmptyBedEgress/ALowExtension"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="EmptyBedEgress/ALowExtension"]
+shape = SubResource("shape")
+
+[node name="BFrontRamp" type="StaticBody3D" parent="EmptyBedEgress"]
+position = Vector3(6, -0.34, 34.2)
+scale = Vector3(1.6, 0.14, 2.074)
+rotation_degrees = Vector3(15.38, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="EmptyBedEgress/BFrontRamp"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="EmptyBedEgress/BFrontRamp"]
+shape = SubResource("shape")
+
+[node name="BLowExtension" type="StaticBody3D" parent="EmptyBedEgress"]
+position = Vector3(6, -0.68, 35.525)
+scale = Vector3(1.6, 0.26, 0.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="EmptyBedEgress/BLowExtension"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="EmptyBedEgress/BLowExtension"]
+shape = SubResource("shape")
+
+[node name="CWestRamp" type="StaticBody3D" parent="EmptyBedEgress"]
+position = Vector3(-9.8, -0.34, 49)
+scale = Vector3(2.074, 0.14, 1.4)
+rotation_degrees = Vector3(0, 0, -15.38)
+
+[node name="Mesh" type="MeshInstance3D" parent="EmptyBedEgress/CWestRamp"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="EmptyBedEgress/CWestRamp"]
+shape = SubResource("shape")
+
+[node name="CWestLowExtension" type="StaticBody3D" parent="EmptyBedEgress"]
+position = Vector3(-8.475, -0.68, 49)
+scale = Vector3(0.65, 0.26, 1.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="EmptyBedEgress/CWestLowExtension"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="EmptyBedEgress/CWestLowExtension"]
+shape = SubResource("shape")
+
+[node name="Receivers" type="Node3D" parent="."]
+
+[node name="A" parent="Receivers" instance=ExtResource("receiver")]
+position = Vector3(-6, 0, 38)
+
+[node name="B" parent="Receivers" instance=ExtResource("receiver")]
+position = Vector3(6, 0, 38)
+
+[node name="C" parent="Receivers" instance=ExtResource("receiver")]
+position = Vector3(-6, 0, 50)
+
+[node name="BeamTargets" type="Node3D" parent="."]
+
+[node name="IOrigin" type="Marker3D" parent="BeamTargets"]
+position = Vector3(-1.5, 2.6, 34)
+
+[node name="IATarget" type="Marker3D" parent="BeamTargets"]
+position = Vector3(-4.25, 2.6, 36)
+
+[node name="ICTarget" type="Marker3D" parent="BeamTargets"]
+position = Vector3(-4.25, 2.6, 48)
+
+[node name="ROrigin" type="Marker3D" parent="BeamTargets"]
+position = Vector3(10.7, 2.6, 34)
+
+[node name="RBTarget" type="Marker3D" parent="BeamTargets"]
+position = Vector3(7.75, 2.6, 36)
+
+[node name="CoherentAssembly" parent="." instance=ExtResource("assembly")]
+observation_manager_path = NodePath("../../../ObservationManager")
+configuration_paths = Array[NodePath]([NodePath("../Receivers/A"), NodePath("../Receivers/B"), NodePath("../Receivers/C")])
+player_path = NodePath("../../../Player")
+fixed_support_paths = Array[NodePath]([NodePath("../ApproachContinuations"), NodePath("../WalkingFloors"), NodePath("../Exterior"), NodePath("../../Shell"), NodePath("../../WingApproaches"), NodePath("../../../Shell")])
+
+[node name="InspectionBeam" parent="." instance=ExtResource("beam")]
+position = Vector3(-1.394, 2.6, 33.46)
+initially_enabled = true
+player_path = NodePath("../../../Player")
+debug_output = false
+
+[node name="ReturnBeam" parent="." instance=ExtResource("beam")]
+position = Vector3(11.155, 2.6, 33.691)
+initially_enabled = true
+player_path = NodePath("../../../Player")
+debug_output = false
+
+[node name="InspectionPower" parent="." instance=ExtResource("switch")]
+position = Vector3(-1.8, 1.05, 32.85)
+rotation_degrees = Vector3(0, 180, 0)
+interaction_label = "INSPECTION POWER"
+beam_path = NodePath("../InspectionBeam")
+debug_output = false
+
+[node name="InspectionAim" parent="." instance=ExtResource("switch")]
+position = Vector3(-0.7, 1.05, 32.85)
+rotation_degrees = Vector3(0, 180, 0)
+interaction_label = "REDIRECT INSPECTION FIELD"
+control_mode = 1
+beam_path = NodePath("../InspectionBeam")
+primary_aim_path = NodePath("../BeamTargets/IATarget")
+secondary_aim_path = NodePath("../BeamTargets/ICTarget")
+debug_output = false
+
+[node name="ReturnPower" parent="." instance=ExtResource("switch")]
+position = Vector3(10.7, 1.05, 32.9)
+rotation_degrees = Vector3(0, 180, 0)
+interaction_label = "RETURN FIELD POWER"
+beam_path = NodePath("../ReturnBeam")
+debug_output = false
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="RecordsPassage" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-20, 3.4, 20)
+light_color = Color(0.64, 0.72, 0.72, 1)
+light_energy = 1.7
+omni_range = 9
+
+[node name="PowerPassage" type="OmniLight3D" parent="Lighting"]
+position = Vector3(20, 3.4, 20)
+light_color = Color(0.72, 0.68, 0.54, 1)
+light_energy = 1.7
+omni_range = 9
+
+[node name="CommonApron" type="OmniLight3D" parent="Lighting"]
+position = Vector3(0, 4.8, 32)
+light_color = Color(0.63, 0.71, 0.73, 1)
+light_energy = 3.1
+omni_range = 17
+
+[node name="DInspection" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-11, 3.4, 35)
+light_color = Color(0.68, 0.74, 0.72, 1)
+light_energy = 2.7
+omni_range = 8
+
+[node name="AWorkface" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-5, 4.1, 37)
+light_color = Color(0.69, 0.73, 0.68, 1)
+light_energy = 3
+omni_range = 9
+
+[node name="BWorkface" type="OmniLight3D" parent="Lighting"]
+position = Vector3(8, 4.1, 37)
+light_color = Color(0.71, 0.71, 0.65, 1)
+light_energy = 3
+omni_range = 9
+
+[node name="Survey" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-2.5, 4, 42)
+light_color = Color(0.63, 0.73, 0.77, 1)
+light_energy = 2.5
+omni_range = 10
+
+[node name="Exterior" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-11, 5, 52)
+light_color = Color(0.7, 0.73, 0.71, 1)
+light_energy = 4.5
+omni_range = 18
+
+[node name="ExteriorSurveyFill" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-3.6, 6.2, 47.5)
+light_color = Color(0.65, 0.71, 0.72, 1)
+light_energy = 2.2
+omni_range = 14

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/triple_coexistence_probe.gd" id="1_probe"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+
+[node name="TripleCoexistenceProbe" type="Node3D"]
+script = ExtResource("1_probe")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector3(0, 0.92, 0)
+rotation = Vector3(0, 3.141593, 0)
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.75, -0.35, 0)
+light_energy = 1.35
+
+[node name="Fill" type="OmniLight3D" parent="."]
+position = Vector3(0, 15, 13)
+light_energy = 2.4
+omni_range = 60.0

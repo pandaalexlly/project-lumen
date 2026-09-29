@@ -1,0 +1,718 @@
+[gd_scene load_steps=21 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/world/environment/greybox/research_workbench.tscn" id="1_bench"]
+[ext_resource type="Material" path="res://scenes/world/environment/materials/painted_alloy.tres" id="2_alloy"]
+
+[sub_resource type="StandardMaterial3D" id="Dark"]
+albedo_color = Color(0.065, 0.075, 0.07, 1)
+roughness = 0.86
+
+[sub_resource type="StandardMaterial3D" id="Steel"]
+albedo_color = Color(0.38, 0.4, 0.38, 1)
+metallic = 0.75
+roughness = 0.48
+
+[sub_resource type="StandardMaterial3D" id="Paper"]
+albedo_color = Color(0.54, 0.51, 0.4, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Cloth"]
+albedo_color = Color(0.29, 0.31, 0.25, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Ceramic"]
+albedo_color = Color(0.5, 0.46, 0.37, 1)
+roughness = 0.44
+
+[sub_resource type="StandardMaterial3D" id="Oxide"]
+albedo_color = Color(0.21, 0.14, 0.095, 1)
+roughness = 0.98
+
+[sub_resource type="BoxMesh" id="AlloyBox"]
+material = ExtResource("2_alloy")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="DarkBox"]
+material = SubResource("Dark")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="SteelBox"]
+material = SubResource("Steel")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="PaperBox"]
+material = SubResource("Paper")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="ClothBox"]
+material = SubResource("Cloth")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="OxideBox"]
+material = SubResource("Oxide")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="CylinderMesh" id="Cup"]
+material = SubResource("Ceramic")
+top_radius = 0.048
+bottom_radius = 0.038
+height = 0.115
+radial_segments = 20
+
+[sub_resource type="CylinderMesh" id="CupInterior"]
+material = SubResource("Dark")
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.002
+radial_segments = 20
+
+[sub_resource type="TorusMesh" id="CupHandle"]
+material = SubResource("Ceramic")
+inner_radius = 0.018
+outer_radius = 0.027
+rings = 16
+ring_segments = 8
+
+[sub_resource type="CylinderMesh" id="Dial"]
+material = SubResource("Paper")
+top_radius = 0.085
+bottom_radius = 0.085
+height = 0.02
+radial_segments = 24
+
+[sub_resource type="CylinderMesh" id="Pipe"]
+material = SubResource("Steel")
+top_radius = 0.04
+bottom_radius = 0.04
+height = 1.0
+radial_segments = 12
+
+[sub_resource type="BoxShape3D" id="UnitShape"]
+size = Vector3(1, 1, 1)
+
+[node name="Workspaces" type="Node3D"]
+
+[node name="Maintenance" type="Node3D" parent="."]
+position = Vector3(-6.2, 0, -1.3)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="Workbench" parent="Maintenance" instance=ExtResource("1_bench")]
+
+[node name="ServiceMat" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(0, 0.921, 0)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(1.2, 0.012, 0.55)
+mesh = SubResource("DarkBox")
+
+[node name="OpenInstrumentCase" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(-0.15, 1.02, -0.04)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.52, 0.18, 0.38)
+mesh = SubResource("AlloyBox")
+
+[node name="RemovedCaseLid" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(0.42, 0.94, 0.07)
+rotation_degrees = Vector3(0, -18, 0)
+scale = Vector3(0.48, 0.03, 0.36)
+mesh = SubResource("AlloyBox")
+
+[node name="CircuitTray" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(-0.15, 1.118, -0.04)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.43, 0.015, 0.29)
+mesh = SubResource("DarkBox")
+
+[node name="Coil0" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(-0.3, 1.14, -0.03)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.065, 0.04, 0.16)
+mesh = SubResource("SteelBox")
+
+[node name="Coil1" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(-0.2, 1.14, -0.03)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.065, 0.04, 0.16)
+mesh = SubResource("SteelBox")
+
+[node name="Coil2" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(-0.1, 1.14, -0.03)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.065, 0.04, 0.16)
+mesh = SubResource("SteelBox")
+
+[node name="Coil3" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(0, 1.14, -0.03)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.065, 0.04, 0.16)
+mesh = SubResource("SteelBox")
+
+[node name="Wrench" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(0.55, 0.965, -0.13)
+rotation_degrees = Vector3(0, 24, 0)
+scale = Vector3(0.22, 0.025, 0.04)
+mesh = SubResource("SteelBox")
+
+[node name="WrenchJaw" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(0.45, 0.965, -0.17)
+rotation_degrees = Vector3(0, 24, 0)
+scale = Vector3(0.06, 0.025, 0.09)
+mesh = SubResource("SteelBox")
+
+[node name="Rag" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(-0.67, 0.94, 0.13)
+rotation_degrees = Vector3(0, -16, 0)
+scale = Vector3(0.35, 0.03, 0.24)
+mesh = SubResource("ClothBox")
+
+[node name="HangingRag" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(-0.73, 0.82, 0.36)
+rotation_degrees = Vector3(6, 0, 0)
+scale = Vector3(0.29, 0.26, 0.018)
+mesh = SubResource("ClothBox")
+
+[node name="LooseFuse" type="MeshInstance3D" parent="Maintenance"]
+position = Vector3(0.67, 0.95, 0.23)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.085, 0.025, 0.025)
+mesh = SubResource("SteelBox")
+
+[node name="Observation" type="Node3D" parent="."]
+position = Vector3(2.85, 0, -2.4)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="Workbench" parent="Observation" instance=ExtResource("1_bench")]
+
+[node name="NotebookCover" type="MeshInstance3D" parent="Observation"]
+position = Vector3(-0.55, 0.924, 0.08)
+rotation_degrees = Vector3(0, 12, 0)
+scale = Vector3(0.36, 0.014, 0.25)
+mesh = SubResource("ClothBox")
+
+[node name="NotebookPages" type="MeshInstance3D" parent="Observation"]
+position = Vector3(-0.55, 0.938, 0.08)
+rotation_degrees = Vector3(0, 12, 0)
+scale = Vector3(0.33, 0.012, 0.23)
+mesh = SubResource("PaperBox")
+
+[node name="Pencil" type="MeshInstance3D" parent="Observation"]
+position = Vector3(-0.43, 0.951, 0.1)
+rotation_degrees = Vector3(0, 42, 0)
+scale = Vector3(0.15, 0.01, 0.01)
+mesh = SubResource("DarkBox")
+
+[node name="HeadsetBand" type="MeshInstance3D" parent="Observation"]
+position = Vector3(0.3, 0.96, 0.06)
+rotation_degrees = Vector3(0, -25, 0)
+scale = Vector3(0.3, 0.05, 0.06)
+mesh = SubResource("DarkBox")
+
+[node name="HeadsetLeft" type="MeshInstance3D" parent="Observation"]
+position = Vector3(0.17, 0.96, 0.13)
+rotation_degrees = Vector3(0, -25, 0)
+scale = Vector3(0.07, 0.07, 0.11)
+mesh = SubResource("DarkBox")
+
+[node name="HeadsetRight" type="MeshInstance3D" parent="Observation"]
+position = Vector3(0.43, 0.96, -0.01)
+rotation_degrees = Vector3(0, -25, 0)
+scale = Vector3(0.07, 0.07, 0.11)
+mesh = SubResource("DarkBox")
+
+[node name="Mug" type="MeshInstance3D" parent="Observation"]
+position = Vector3(0.73, 0.977, 0.06)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(1, 1, 1)
+mesh = SubResource("Cup")
+
+[node name="MugInterior" type="MeshInstance3D" parent="Observation"]
+position = Vector3(0.73, 1.035, 0.06)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(1, 1, 1)
+mesh = SubResource("CupInterior")
+
+[node name="MugHandle" type="MeshInstance3D" parent="Observation"]
+position = Vector3(0.785, 0.977, 0.06)
+rotation_degrees = Vector3(90, 0, 0)
+scale = Vector3(1, 1, 1)
+mesh = SubResource("CupHandle")
+
+[node name="Control" type="Node3D" parent="."]
+position = Vector3(-3.1, 0, 5.15)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="TaskLampShade" type="MeshInstance3D" parent="Control"]
+position = Vector3(0, 2.77, -0.28)
+scale = Vector3(0.85, 0.09, 0.32)
+mesh = SubResource("AlloyBox")
+
+[node name="TaskLampArm" type="MeshInstance3D" parent="Control"]
+position = Vector3(0, 2.73, -0.47)
+scale = Vector3(0.08, 0.13, 0.25)
+mesh = SubResource("SteelBox")
+
+[node name="Workbench" parent="Control" instance=ExtResource("1_bench")]
+
+[node name="DistributionCabinet" type="StaticBody3D" parent="Control"]
+position = Vector3(0, 1.87, -0.56)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(2.15, 1.55, 0.22)
+
+[node name="Visual" type="MeshInstance3D" parent="Control/DistributionCabinet"]
+mesh = SubResource("AlloyBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/DistributionCabinet"]
+shape = SubResource("UnitShape")
+
+[node name="MeterRecess" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.46, 2.1, -0.436)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.87, 0.5, 0.028)
+mesh = SubResource("DarkBox")
+
+[node name="AnalogMeter0" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.73, 2.1, -0.405)
+rotation_degrees = Vector3(90, 0, 0)
+scale = Vector3(1, 1, 1)
+mesh = SubResource("Dial")
+
+[node name="Needle0" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.73, 2.1, -0.39)
+rotation_degrees = Vector3(0, 0, -35)
+scale = Vector3(0.007, 0.105, 0.004)
+mesh = SubResource("DarkBox")
+
+[node name="AnalogMeter1" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.46, 2.1, -0.405)
+rotation_degrees = Vector3(90, 0, 0)
+scale = Vector3(1, 1, 1)
+mesh = SubResource("Dial")
+
+[node name="Needle1" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.46, 2.1, -0.39)
+rotation_degrees = Vector3(0, 0, -10)
+scale = Vector3(0.007, 0.105, 0.004)
+mesh = SubResource("DarkBox")
+
+[node name="AnalogMeter2" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.19, 2.1, -0.405)
+rotation_degrees = Vector3(90, 0, 0)
+scale = Vector3(1, 1, 1)
+mesh = SubResource("Dial")
+
+[node name="Needle2" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.19, 2.1, -0.39)
+rotation_degrees = Vector3(0, 0, 15)
+scale = Vector3(0.007, 0.105, 0.004)
+mesh = SubResource("DarkBox")
+
+[node name="InactiveChartFace" type="MeshInstance3D" parent="Control"]
+position = Vector3(0.55, 2.1, -0.434)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.68, 0.48, 0.025)
+mesh = SubResource("DarkBox")
+
+[node name="ConduitDown" type="MeshInstance3D" parent="Control"]
+position = Vector3(0.94, 1.11, -0.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(1, 0.7, 1)
+mesh = SubResource("Pipe")
+
+[node name="InstrumentHousing" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.44, 1.095, -0.05)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.7, 0.35, 0.38)
+mesh = SubResource("AlloyBox")
+
+[node name="InstrumentDisplay" type="MeshInstance3D" parent="Control"]
+position = Vector3(-0.44, 1.14, 0.15)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.5, 0.18, 0.025)
+mesh = SubResource("DarkBox")
+
+[node name="BlankPrintout" type="MeshInstance3D" parent="Control"]
+position = Vector3(0.44, 0.923, 0.07)
+rotation_degrees = Vector3(0, -9, 0)
+scale = Vector3(0.49, 0.007, 0.27)
+mesh = SubResource("PaperBox")
+
+[node name="PrintoutOverEdge" type="MeshInstance3D" parent="Control"]
+position = Vector3(0.61, 0.79, 0.4)
+rotation_degrees = Vector3(-8, 0, 0)
+scale = Vector3(0.26, 0.28, 0.006)
+mesh = SubResource("PaperBox")
+
+[node name="BinderSpine" type="MeshInstance3D" parent="Control"]
+position = Vector3(0.77, 1.05, -0.12)
+rotation_degrees = Vector3(0, 0, 12)
+scale = Vector3(0.12, 0.25, 0.32)
+mesh = SubResource("ClothBox")
+
+[node name="BinderPages" type="MeshInstance3D" parent="Control"]
+position = Vector3(0.745, 1.05, -0.12)
+rotation_degrees = Vector3(0, 0, 12)
+scale = Vector3(0.068, 0.225, 0.28)
+mesh = SubResource("PaperBox")
+
+[node name="Containment" type="Node3D" parent="."]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 0)
+
+[node name="AnchorLN" type="MeshInstance3D" parent="Containment"]
+position = Vector3(-0.84, 0.04, -0.16)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.09, 0.04, 0.09)
+mesh = SubResource("SteelBox")
+
+[node name="AnchorLS" type="MeshInstance3D" parent="Containment"]
+position = Vector3(-0.84, 0.04, 1.46)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.09, 0.04, 0.09)
+mesh = SubResource("SteelBox")
+
+[node name="AnchorRN" type="MeshInstance3D" parent="Containment"]
+position = Vector3(0.84, 0.04, -0.16)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.09, 0.04, 0.09)
+mesh = SubResource("SteelBox")
+
+[node name="AnchorRS" type="MeshInstance3D" parent="Containment"]
+position = Vector3(0.84, 0.04, 1.46)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.09, 0.04, 0.09)
+mesh = SubResource("SteelBox")
+
+[node name="SampleInstrumentBox" type="StaticBody3D" parent="Containment"]
+position = Vector3(1.65, 0.55, 0.05)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.42, 0.75, 0.4)
+
+[node name="Visual" type="MeshInstance3D" parent="Containment/SampleInstrumentBox"]
+mesh = SubResource("AlloyBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Containment/SampleInstrumentBox"]
+shape = SubResource("UnitShape")
+
+[node name="SampleInstrumentFace" type="MeshInstance3D" parent="Containment"]
+position = Vector3(1.65, 0.65, 0.263)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.31, 0.33, 0.026)
+mesh = SubResource("DarkBox")
+
+[node name="TransducerGauge" type="MeshInstance3D" parent="Containment"]
+position = Vector3(1.65, 0.68, 0.286)
+rotation_degrees = Vector3(90, 0, 0)
+scale = Vector3(1, 1, 1)
+mesh = SubResource("Dial")
+
+[node name="TransducerNeedle" type="MeshInstance3D" parent="Containment"]
+position = Vector3(1.65, 0.68, 0.303)
+rotation_degrees = Vector3(0, 0, -26)
+scale = Vector3(0.008, 0.1, 0.006)
+mesh = SubResource("DarkBox")
+
+[node name="ClampActuatorL" type="MeshInstance3D" parent="Containment"]
+position = Vector3(-0.98, 0.24, 0.62)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.23, 0.1, 0.1)
+mesh = SubResource("SteelBox")
+
+[node name="ClampActuatorR" type="MeshInstance3D" parent="Containment"]
+position = Vector3(0.98, 0.24, 0.62)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.23, 0.1, 0.1)
+mesh = SubResource("SteelBox")
+
+[node name="InstrumentCable" type="MeshInstance3D" parent="Containment"]
+position = Vector3(1.61, 0.055, 0.44)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.045, 0.045, 0.65)
+mesh = SubResource("DarkBox")
+
+[node name="HumanTraces" type="Node3D" parent="."]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 0)
+
+[node name="CoatHook" type="MeshInstance3D" parent="HumanTraces"]
+position = Vector3(6.82, 1.82, 1.55)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.08, 0.05, 0.07)
+mesh = SubResource("SteelBox")
+
+[node name="CoatBody" type="MeshInstance3D" parent="HumanTraces"]
+position = Vector3(6.73, 1.22, 1.55)
+rotation_degrees = Vector3(0, 0, 3)
+scale = Vector3(0.055, 0.93, 0.52)
+mesh = SubResource("ClothBox")
+
+[node name="CoatSleeve" type="MeshInstance3D" parent="HumanTraces"]
+position = Vector3(6.7, 1.34, 1.93)
+rotation_degrees = Vector3(15, 0, 0)
+scale = Vector3(0.055, 0.72, 0.14)
+mesh = SubResource("ClothBox")
+
+[node name="CoatCollar" type="MeshInstance3D" parent="HumanTraces"]
+position = Vector3(6.68, 1.69, 1.55)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.07, 0.13, 0.2)
+mesh = SubResource("PaperBox")
+
+[node name="PersonalBag" type="StaticBody3D" parent="HumanTraces"]
+position = Vector3(-4, 0.2, 5.34)
+rotation_degrees = Vector3(0, -14, 0)
+scale = Vector3(0.5, 0.4, 0.27)
+
+[node name="Visual" type="MeshInstance3D" parent="HumanTraces/PersonalBag"]
+mesh = SubResource("ClothBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HumanTraces/PersonalBag"]
+shape = SubResource("UnitShape")
+
+[node name="BagHandle" type="MeshInstance3D" parent="HumanTraces"]
+position = Vector3(-4, 0.43, 5.34)
+rotation_degrees = Vector3(0, -14, 0)
+scale = Vector3(0.26, 0.035, 0.05)
+mesh = SubResource("DarkBox")
+
+[node name="EmptyDocumentSlot" type="MeshInstance3D" parent="HumanTraces"]
+position = Vector3(6.74, 1.5, 4.85)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.12, 0.4, 0.48)
+mesh = SubResource("AlloyBox")
+
+[node name="OldFolder" type="MeshInstance3D" parent="HumanTraces"]
+position = Vector3(6.64, 1.56, 4.85)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.025, 0.27, 0.32)
+mesh = SubResource("PaperBox")
+
+[node name="Services" type="Node3D" parent="."]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 0)
+
+[node name="EastWallJoint-4.8" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.858, 2, -4.8)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="WestWallJoint-4.8" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.858, 2, -4.8)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="EastWallJoint-2.5" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.858, 2, -2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="WestWallJoint-2.5" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.858, 2, -2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="EastWallJoint0.2" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.858, 2, 0.2)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="WestWallJoint0.2" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.858, 2, 0.2)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="EastWallJoint2.7" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.858, 2, 2.7)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="WestWallJoint2.7" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.858, 2, 2.7)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="EastWallJoint5" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.858, 2, 5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="WestWallJoint5" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.858, 2, 5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.014, 3.3, 0.02)
+mesh = SubResource("DarkBox")
+
+[node name="AirReturnWest" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.84, 2.97, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.48, 1.8)
+mesh = SubResource("DarkBox")
+
+[node name="ReturnLouvre0" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.8, 2.78, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.02, 1.72)
+mesh = SubResource("AlloyBox")
+
+[node name="ReturnLouvre1" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.8, 2.83, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.02, 1.72)
+mesh = SubResource("AlloyBox")
+
+[node name="ReturnLouvre2" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.8, 2.88, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.02, 1.72)
+mesh = SubResource("AlloyBox")
+
+[node name="ReturnLouvre3" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.8, 2.93, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.02, 1.72)
+mesh = SubResource("AlloyBox")
+
+[node name="ReturnLouvre4" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.8, 2.98, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.02, 1.72)
+mesh = SubResource("AlloyBox")
+
+[node name="ReturnLouvre5" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.8, 3.03, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.02, 1.72)
+mesh = SubResource("AlloyBox")
+
+[node name="ReturnLouvre6" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.8, 3.08, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.02, 1.72)
+mesh = SubResource("AlloyBox")
+
+[node name="ReturnLouvre7" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.8, 3.13, 2.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.06, 0.02, 1.72)
+mesh = SubResource("AlloyBox")
+
+[node name="EastServicePipe" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.67, 3.46, -0.1)
+rotation_degrees = Vector3(90, 0, 0)
+scale = Vector3(1, 10.8, 1)
+mesh = SubResource("Pipe")
+
+[node name="WestServicePipe" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.67, 3.46, 0.1)
+rotation_degrees = Vector3(90, 0, 0)
+scale = Vector3(1, 10.8, 1)
+mesh = SubResource("Pipe")
+
+[node name="EastPipeBracket0" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.71, 3.46, -4.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="WestPipeBracket0" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.71, 3.46, -4.5)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="EastPipeBracket1" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.71, 3.46, -2.3)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="WestPipeBracket1" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.71, 3.46, -2.3)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="EastPipeBracket2" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.71, 3.46, -0.1)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="WestPipeBracket2" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.71, 3.46, -0.1)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="EastPipeBracket3" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.71, 3.46, 2.1)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="WestPipeBracket3" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.71, 3.46, 2.1)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="EastPipeBracket4" type="MeshInstance3D" parent="Services"]
+position = Vector3(6.71, 3.46, 4.3)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="WestPipeBracket4" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.71, 3.46, 4.3)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.25, 0.12, 0.11)
+mesh = SubResource("AlloyBox")
+
+[node name="LeakStreak0" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.853, 2.7, 2.12)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.012, 0.55, 0.05)
+mesh = SubResource("OxideBox")
+
+[node name="LeakStreak1" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.853, 2.55, 2.3)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.012, 0.8, 0.05)
+mesh = SubResource("OxideBox")
+
+[node name="LeakStreak2" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.853, 2.4, 2.48)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.012, 1.05, 0.05)
+mesh = SubResource("OxideBox")
+
+[node name="LeakStreak3" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.853, 2.25, 2.66)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(0.012, 1.3, 0.05)
+mesh = SubResource("OxideBox")
+
+[node name="PipeDripResidue" type="MeshInstance3D" parent="Services"]
+position = Vector3(-6.52, 0.013, 2.7)
+rotation_degrees = Vector3(0, -8, 0)
+scale = Vector3(0.43, 0.013, 1.2)
+mesh = SubResource("OxideBox")
+
+[node name="RearCableTray" type="MeshInstance3D" parent="Services"]
+position = Vector3(-0.1, 3.55, -5.6)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(12.8, 0.14, 0.3)
+mesh = SubResource("AlloyBox")
+
+[node name="TrayCable" type="MeshInstance3D" parent="Services"]
+position = Vector3(-0.1, 3.65, -5.6)
+rotation_degrees = Vector3(0, 0, 0)
+scale = Vector3(12.4, 0.07, 0.13)
+mesh = SubResource("DarkBox")

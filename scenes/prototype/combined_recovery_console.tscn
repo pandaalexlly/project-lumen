@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/combined_recovery_console.gd" id="1_console"]
+
+[sub_resource type="StandardMaterial3D" id="Material_base"]
+albedo_color = Color(0.2, 0.24, 0.29, 1)
+metallic = 0.62
+roughness = 0.38
+
+[sub_resource type="BoxMesh" id="Mesh_base"]
+material = SubResource("Material_base")
+size = Vector3(1.2, 0.9, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Material_indicator"]
+albedo_color = Color(0.12, 0.75, 0.92, 1)
+emission_enabled = true
+emission = Color(0.04, 0.56, 0.9, 1)
+emission_energy_multiplier = 2.6
+roughness = 0.25
+
+[sub_resource type="BoxMesh" id="Mesh_indicator"]
+material = SubResource("Material_indicator")
+size = Vector3(0.78, 0.38, 0.08)
+
+[sub_resource type="BoxShape3D" id="Shape_base"]
+size = Vector3(1.2, 0.9, 0.5)
+
+[node name="CombinedRecoveryConsole" type="Node3D"]
+script = ExtResource("1_console")
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_base")
+
+[node name="Indicator" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.29)
+mesh = SubResource("Mesh_indicator")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("Shape_base")

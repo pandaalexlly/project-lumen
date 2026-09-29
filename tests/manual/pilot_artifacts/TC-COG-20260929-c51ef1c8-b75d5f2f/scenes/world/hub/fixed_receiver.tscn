@@ -1,0 +1,112 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Material" path="res://scenes/world/environment/materials/floor_composite.tres" id="floor"]
+[ext_resource type="Material" path="res://scenes/world/environment/materials/wall_finish.tres" id="wall"]
+[ext_resource type="Material" path="res://scenes/world/environment/materials/painted_alloy.tres" id="alloy"]
+
+[sub_resource type="BoxMesh" id="box"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="shape"]
+size = Vector3(1, 1, 1)
+
+[node name="FixedReceiver" type="Node3D"]
+
+[node name="ReceivingBed" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.68, 0)
+scale = Vector3(4.3, 0.26, 4.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="ReceivingBed"]
+mesh = SubResource("box")
+material_override = ExtResource("floor")
+
+[node name="Collision" type="CollisionShape3D" parent="ReceivingBed"]
+shape = SubResource("shape")
+
+[node name="WestHoodSide" type="StaticBody3D" parent="."]
+position = Vector3(-2.4, 1.2, 2.2)
+scale = Vector3(0.2, 2.4, 1.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="WestHoodSide"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="WestHoodSide"]
+shape = SubResource("shape")
+
+[node name="EastHoodSide" type="StaticBody3D" parent="."]
+position = Vector3(2.4, 1.2, 2.2)
+scale = Vector3(0.2, 2.4, 1.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="EastHoodSide"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="EastHoodSide"]
+shape = SubResource("shape")
+
+[node name="WestHoodLowerShroud" type="StaticBody3D" parent="."]
+position = Vector3(-1.75, 0.7, 1.9)
+scale = Vector3(1.1, 1.2, 0.9)
+
+[node name="Mesh" type="MeshInstance3D" parent="WestHoodLowerShroud"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="WestHoodLowerShroud"]
+shape = SubResource("shape")
+
+[node name="EastHoodLowerShroud" type="StaticBody3D" parent="."]
+position = Vector3(1.75, 0.7, 1.9)
+scale = Vector3(1.1, 1.2, 0.9)
+
+[node name="Mesh" type="MeshInstance3D" parent="EastHoodLowerShroud"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="EastHoodLowerShroud"]
+shape = SubResource("shape")
+
+[node name="HoodRear" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.2, 2.7)
+scale = Vector3(4.6, 2.4, 0.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="HoodRear"]
+mesh = SubResource("box")
+material_override = ExtResource("wall")
+
+[node name="Collision" type="CollisionShape3D" parent="HoodRear"]
+shape = SubResource("shape")
+
+[node name="HoodRoof" type="StaticBody3D" parent="."]
+position = Vector3(0, 2.5, 2.2)
+scale = Vector3(4.8, 0.2, 1.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="HoodRoof"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="HoodRoof"]
+shape = SubResource("shape")
+
+[node name="WestReceivingContact" type="StaticBody3D" parent="."]
+position = Vector3(-1.55, -0.31, -2.35)
+scale = Vector3(0.34, 0.48, 0.34)
+
+[node name="Mesh" type="MeshInstance3D" parent="WestReceivingContact"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="WestReceivingContact"]
+shape = SubResource("shape")
+
+[node name="EastReceivingContact" type="StaticBody3D" parent="."]
+position = Vector3(1.55, -0.31, -2.35)
+scale = Vector3(0.24, 0.48, 0.34)
+
+[node name="Mesh" type="MeshInstance3D" parent="EastReceivingContact"]
+mesh = SubResource("box")
+material_override = ExtResource("alloy")
+
+[node name="Collision" type="CollisionShape3D" parent="EastReceivingContact"]
+shape = SubResource("shape")

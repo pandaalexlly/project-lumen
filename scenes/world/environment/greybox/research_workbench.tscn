@@ -1,0 +1,74 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Material" path="res://scenes/world/environment/materials/painted_alloy.tres" id="1_finish"]
+
+[sub_resource type="StandardMaterial3D" id="TopFinish"]
+albedo_color = Color(0.17, 0.18, 0.16, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="Top"]
+material = SubResource("TopFinish")
+size = Vector3(2.0, 0.09, 0.8)
+
+[sub_resource type="BoxMesh" id="Pedestal"]
+material = ExtResource("1_finish")
+size = Vector3(0.48, 0.82, 0.68)
+
+[sub_resource type="BoxMesh" id="Drawer"]
+material = ExtResource("1_finish")
+size = Vector3(0.43, 0.18, 0.035)
+
+[sub_resource type="BoxMesh" id="Pull"]
+material = SubResource("TopFinish")
+size = Vector3(0.22, 0.025, 0.04)
+
+[sub_resource type="BoxShape3D" id="TopShape"]
+size = Vector3(2.0, 0.09, 0.8)
+
+[sub_resource type="BoxShape3D" id="PedestalShape"]
+size = Vector3(0.48, 0.82, 0.68)
+
+[node name="ResearchWorkbench" type="Node3D"]
+
+[node name="Desktop" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.87, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Desktop"]
+mesh = SubResource("Top")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Desktop"]
+shape = SubResource("TopShape")
+
+[node name="LeftCabinet" type="StaticBody3D" parent="."]
+position = Vector3(-0.72, 0.41, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="LeftCabinet"]
+mesh = SubResource("Pedestal")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftCabinet"]
+shape = SubResource("PedestalShape")
+
+[node name="RightCabinet" type="StaticBody3D" parent="."]
+position = Vector3(0.72, 0.41, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="RightCabinet"]
+mesh = SubResource("Pedestal")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightCabinet"]
+shape = SubResource("PedestalShape")
+
+[node name="DrawerUpper" type="MeshInstance3D" parent="."]
+position = Vector3(-0.72, 0.66, 0.36)
+mesh = SubResource("Drawer")
+
+[node name="PullUpper" type="MeshInstance3D" parent="."]
+position = Vector3(-0.72, 0.68, 0.39)
+mesh = SubResource("Pull")
+
+[node name="DrawerLower" type="MeshInstance3D" parent="."]
+position = Vector3(-0.72, 0.39, 0.36)
+mesh = SubResource("Drawer")
+
+[node name="PullLower" type="MeshInstance3D" parent="."]
+position = Vector3(-0.72, 0.41, 0.39)
+mesh = SubResource("Pull")

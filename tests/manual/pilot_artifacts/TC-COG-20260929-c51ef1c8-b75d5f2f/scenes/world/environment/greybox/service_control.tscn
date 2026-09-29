@@ -1,0 +1,118 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/awakening_service_control.gd" id="1_control"]
+
+[sub_resource type="StandardMaterial3D" id="Panel"]
+albedo_color = Color(0.23, 0.25, 0.23, 1)
+metallic = 0.6
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="HandleMaterial"]
+albedo_color = Color(0.34, 0.19, 0.09, 1)
+metallic = 0.3
+roughness = 0.72
+
+[sub_resource type="StandardMaterial3D" id="GripMaterial"]
+albedo_color = Color(0.5, 0.24, 0.075, 1)
+roughness = 0.83
+
+[sub_resource type="StandardMaterial3D" id="FastenerMaterial"]
+albedo_color = Color(0.12, 0.135, 0.13, 1)
+metallic = 0.82
+roughness = 0.38
+
+[sub_resource type="BoxMesh" id="PanelMesh"]
+material = SubResource("Panel")
+size = Vector3(0.68, 0.025, 0.68)
+
+[sub_resource type="CylinderMesh" id="HandleMesh"]
+material = SubResource("HandleMaterial")
+top_radius = 0.035
+bottom_radius = 0.035
+height = 0.36
+radial_segments = 12
+
+[sub_resource type="BoxShape3D" id="Shape"]
+size = Vector3(0.68, 0.06, 0.68)
+
+[sub_resource type="CylinderMesh" id="PivotMesh"]
+material = SubResource("FastenerMaterial")
+top_radius = 0.11
+bottom_radius = 0.11
+height = 0.05
+
+[sub_resource type="CylinderMesh" id="GripMesh"]
+material = SubResource("GripMaterial")
+top_radius = 0.055
+bottom_radius = 0.055
+height = 0.12
+radial_segments = 12
+
+[sub_resource type="CylinderMesh" id="BoltMesh"]
+material = SubResource("FastenerMaterial")
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.02
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="GuardMesh"]
+material = SubResource("Panel")
+size = Vector3(0.08, 0.08, 0.55)
+
+[node name="ServiceControl" type="Node3D"]
+script = ExtResource("1_control")
+interaction_label = ""
+
+[node name="Panel" type="MeshInstance3D" parent="."]
+mesh = SubResource("PanelMesh")
+
+[node name="Pivot" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.045, 0)
+mesh = SubResource("PivotMesh")
+
+[node name="Handle" type="Node3D" parent="."]
+position = Vector3(0, 0.085, 0)
+
+[node name="Crossbar" type="MeshInstance3D" parent="Handle"]
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("HandleMesh")
+
+[node name="GripLeft" type="MeshInstance3D" parent="Handle"]
+position = Vector3(-0.2, 0, 0)
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("GripMesh")
+
+[node name="GripRight" type="MeshInstance3D" parent="Handle"]
+position = Vector3(0.2, 0, 0)
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("GripMesh")
+
+[node name="GuardLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.27, 0.06, 0)
+mesh = SubResource("GuardMesh")
+
+[node name="GuardRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.27, 0.06, 0)
+mesh = SubResource("GuardMesh")
+
+[node name="BoltNorthWest" type="MeshInstance3D" parent="."]
+position = Vector3(-0.27, 0.025, -0.27)
+mesh = SubResource("BoltMesh")
+
+[node name="BoltNorthEast" type="MeshInstance3D" parent="."]
+position = Vector3(0.27, 0.025, -0.27)
+mesh = SubResource("BoltMesh")
+
+[node name="BoltSouthWest" type="MeshInstance3D" parent="."]
+position = Vector3(-0.27, 0.025, 0.27)
+mesh = SubResource("BoltMesh")
+
+[node name="BoltSouthEast" type="MeshInstance3D" parent="."]
+position = Vector3(0.27, 0.025, 0.27)
+mesh = SubResource("BoltMesh")
+
+[node name="Body" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 0.02, 0)
+shape = SubResource("Shape")

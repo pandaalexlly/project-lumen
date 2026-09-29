@@ -20,7 +20,10 @@ press `E` to interact and `R` to restart.
 - Observe B, turn away for about three seconds, and confirm the Cube moves B→C.
 - Confirm the PressurePlate activates, the SimpleDoor opens, and the completion
   space is reachable.
-- Press `R` and confirm the room restarts with Cube A and Beam aimed at C.
+- Before exiting, press `R` and confirm the room restarts with Cube A and Beam
+  aimed at C.
+- Solve again, walk through the exit, and confirm Stabilization Lab Combined
+  loads without an intermediate completion overlay.
 
 Also test the early action: redirect the Beam to A before the first relocation,
 turn away, and confirm the current Cube remains stabilized at A. Return the

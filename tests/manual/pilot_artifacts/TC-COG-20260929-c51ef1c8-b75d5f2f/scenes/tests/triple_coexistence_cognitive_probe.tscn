@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/triple_coexistence_cognitive_probe.gd" id="1_cognitive"]
+[ext_resource type="PackedScene" path="res://scenes/tests/triple_coexistence_probe.tscn" id="2_proof"]
+
+[node name="TripleCoexistenceCognitiveProbe" type="Node3D"]
+script = ExtResource("1_cognitive")
+
+[node name="Proof" parent="." instance=ExtResource("2_proof")]

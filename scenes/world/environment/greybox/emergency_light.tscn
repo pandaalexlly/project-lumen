@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_fixture"]
+albedo_color = Color(0.12, 0.14, 0.15, 1)
+metallic = 0.7
+roughness = 0.42
+
+[sub_resource type="StandardMaterial3D" id="Material_lamp"]
+albedo_color = Color(0.8, 0.42, 0.15, 1)
+emission_enabled = true
+emission = Color(1, 0.28, 0.06, 1)
+emission_energy_multiplier = 1.8
+
+[sub_resource type="BoxMesh" id="Mesh_fixture"]
+material = SubResource("Material_fixture")
+size = Vector3(0.9, 0.18, 0.32)
+
+[sub_resource type="BoxMesh" id="Mesh_lamp"]
+material = SubResource("Material_lamp")
+size = Vector3(0.62, 0.08, 0.2)
+
+[node name="EmergencyLight" type="Node3D"]
+
+[node name="Fixture" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_fixture")
+
+[node name="Lamp" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.1, 0)
+mesh = SubResource("Mesh_lamp")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+position = Vector3(0, -0.25, 0)
+light_color = Color(1, 0.42, 0.16, 1)
+light_energy = 1.7
+omni_range = 4.8
